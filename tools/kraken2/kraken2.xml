@@ -1,0 +1,25 @@
+<tool id="kraken2" name="kraken2" version="@TOOL_VERSION@+galaxy0">
+    <description></description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <requirements>
+        <requirement type="package" version="@TOOL_VERSION@">mash</requirement>
+    </requirements>
+    <version_command>kraken2 --version</version_command>
+    <command detect_errors="exit_code"><![CDATA[
+        kraken2
+    ]]></command>
+    <inputs>
+        <param name="" type="" format="" />
+    </inputs>
+    <outputs>
+        <data name="output" format="" />
+    </outputs>
+    <tests>
+    </tests>
+    <help><![CDATA[
+    ]]></help>
+    <citations>
+    </citations>
+</tool>

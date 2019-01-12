@@ -1,0 +1,10 @@
+categories:
+- Sequence Analysis
+description: 'GATK'
+long_description: |
+  Genome Analysis Toolkit
+name: gatk4
+owner: dfornika
+remote_repository_url: https://github.com/dfornika/galaxy/tree/master/tools/gatk4
+homepage_url: https://software.broadinstitute.org/gatk/
+type: unrestricted
