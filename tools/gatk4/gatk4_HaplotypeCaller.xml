@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<tool id="gatk4_haplotype_caller" name="GATK HaplotypeCaller" version="@TOOL_VERSION@+galaxy0">
+<tool id="gatk4_HaplotypeCaller" name="HaplotypeCaller" version="@TOOL_VERSION@+galaxy0">
   <description></description>
   <macros>
     <import>macros.xml</import>
   </macros>
   <requirements>
     <requirement type="package" version="@TOOL_VERSION@">gatk4</requirement>
+    <requirement type="package" version="1.9">samtools</requirement>
   </requirements>
   <version_command>gatk HaplotypeCaller --version</version_command>
   <command detect_errors="exit_code">
     <![CDATA[
       ln -s '$input' input.bam &&
       ln -s '$reference' reference.fasta &&
+      samtools faidx reference.fasta &&
       gatk HaplotypeCaller
         --input input.bam
         --reference reference.fasta
