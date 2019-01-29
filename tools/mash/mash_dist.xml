@@ -47,10 +47,10 @@
                 <param name="query" type="data" format="@INTYPES@" label="Select fastq dataset" help="Specify dataset with single reads"/>
             </when>
 	    <when value="collection">
-                <param name="query" format="@INTYPES@" type="data_collection" collection_type="single" label="Select a collection" help="See help section for an explanation of dataset collections"/>
+                <param name="query" format="@INTYPES@" type="data_collection" collection_type="list" label="Select a collection" help="See help section for an explanation of dataset collections"/>
             </when>
             <when value="paired_collection">
-                <param name="pool" format="@INTYPES@" type="data_collection" collection_type="paired" label="Select a paired collection" help="See help section for an explanation of dataset collections"/>
+                <param name="query" format="@INTYPES@" type="data_collection" collection_type="paired" label="Select a paired collection" help="See help section for an explanation of dataset collections"/>
             </when>
         </conditional>
     </inputs>
