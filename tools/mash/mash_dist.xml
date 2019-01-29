@@ -1,0 +1,104 @@
+<tool id="mash_dist" name="mash dist" version="@TOOL_VERSION@+galaxy0">
+    <description>determines how well query sequences are contained within a pool of sequences.</description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <requirements>
+        <requirement type="package" version="@TOOL_VERSION@">mash</requirement>
+    </requirements>
+    <version_command>mash --version</version_command>
+    <command detect_errors="exit_code"><![CDATA[
+        #if str( $query_input.query_input_selector ) == "single"
+          #set $query = $query_input.query.element_identifier
+          cat '$query_input.query' > '$query' &&
+        #end if
+        #if str( $query_input.query_input_selector ) == "paired"
+        #set $query = $query_input.query_1.element_identifier
+          cat '$query_input.query_1' '$query_input.query_2' > '$query' && 
+        #end if
+        #if str( $query_input.query_input_selector ) == "paired_collection"
+          #set $query = $query_input.query.element_identifier
+          cat '$query_input.query.forward' '$query_input.query.reverse' > '$query' &&
+        #end if
+        #if str( $query_input.query_input_selector ) == "collection"
+	  #set $query = $query_input.query.element_identifier
+          cat '${ str($query_input.query).replace(',', '\' \'') }' > '$query' &&
+        #end if
+	ln -s '$reference' ref.msh &&
+        mash dist
+             'ref.msh'
+             '$query'
+             > '$output'
+    ]]></command>
+    <inputs>
+        <param name="reference" type="data" format="@INTYPES@,binary" />
+        <conditional name="query_input">
+            <param name="query_input_selector" type="select" label="Single or Paired-end reads" help="Select between paired and single end data">
+                <option value="paired">Paired</option>
+                <option value="single">Single</option>
+                <option value="collection">Collection</option>
+                <option value="paired_collection">Paired Collection</option>
+            </param>
+            <when value="paired">
+                <param name="query_1" type="data" format="@INTYPES@" label="Select first set of reads" help="Specify dataset with forward reads"/>
+                <param name="query_2" type="data" format="@INTYPES@" label="Select second set of reads" help="Specify dataset with reverse reads"/>
+            </when>
+            <when value="single">
+                <param name="query" type="data" format="@INTYPES@" label="Select fastq dataset" help="Specify dataset with single reads"/>
+            </when>
+	    <when value="collection">
+                <param name="query" format="@INTYPES@" type="data_collection" collection_type="single" label="Select a collection" help="See help section for an explanation of dataset collections"/>
+            </when>
+            <when value="paired_collection">
+                <param name="pool" format="@INTYPES@" type="data_collection" collection_type="paired" label="Select a paired collection" help="See help section for an explanation of dataset collections"/>
+            </when>
+        </conditional>
+    </inputs>
+    <outputs>
+        <data name="output" format="tabular" />
+    </outputs>
+    <tests>
+        <test>
+            <param name="reference" value="NZ_MYON01000010.1.msh"/>
+	    <param name="query_input_selector" value="single"/>
+            <param name="query" value="ERR024951_seqtk_sample_1000_1.fastq"/>
+            <output name="output" file="mash_dist_NZ_MYON01000010.1_ERR024951_seqtk_sample_1000_1.tsv"/>
+        </test>
+        <test>
+            <param name="reference" value="NZ_MYON01000010.1.msh"/>
+	    <param name="query_input_selector" value="single"/>
+            <param name="query" value="ERR024951_seqtk_sample_1000_2.fastq"/>
+            <output name="output" file="mash_dist_NZ_MYON01000010.1_ERR024951_seqtk_sample_1000_2.tsv"/>
+        </test>
+        <test>
+            <param name="reference" value="NZ_MYON01000010.1.msh"/>
+	    <param name="query_input_selector" value="paired"/>
+            <param name="query_1" value="ERR024951_seqtk_sample_1000_1.fastq"/>
+	    <param name="query_2" value="ERR024951_seqtk_sample_1000_2.fastq"/>
+            <output name="output" file="mash_dist_NZ_MYON01000010.1_ERR024951_seqtk_sample_1000_1and2.tsv"/>
+        </test>
+    </tests>
+    <help><![CDATA[
+Description:
+
+  Estimate the distance of each query sequence to the reference. 
+  Both the reference and queries can be fasta or fastq, gzipped or not, 
+  or Mash sketch files (.msh) with matching k-mer sizes. Query files can also 
+  be files of file names (see -l). Whole files are compared by default (see -i). 
+  The output fields are [reference-ID, query-ID, distance, p-value, shared-hashes].
+  ]]></help>
+    <citations>
+        <citation type="bibtex">
+@article{ondov2016mash,
+  title={Mash: fast genome and metagenome distance estimation using MinHash},
+  author={Ondov, Brian D and Treangen, Todd J and Melsted, P{\'a}ll and Mallonee, Adam B and Bergman, Nicholas H and Koren, Sergey and Phillippy, Adam M},
+  journal={Genome biology},
+  volume={17},
+  number={1},
+  pages={132},
+  year={2016},
+  publisher={BioMed Central}
+  }
+	</citation>
+    </citations>
+</tool>
