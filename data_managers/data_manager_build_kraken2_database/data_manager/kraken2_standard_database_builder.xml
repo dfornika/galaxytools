@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<tool id="kraken2_standard_database_builder" name="Kraken2 Standard Database Builder" tool_type="manage_data" version="2.0.7_beta">
+    <description>database builder</description>
+    <requirements>
+        <requirement type="package" version="2.0.7_beta">kraken2</requirement>
+    </requirements>
+    <version_command>kraken2 -version | head -n 1 | awk '{print $NF}'</version_command>
+    <command detect_errors="exit_code">
+    <![CDATA[
+        #import datetime
+	#set kraken2_db_name = datetime.date.today().strftime('%Y-%m-%d') + "_standard"
+        mkdir kraken2_database && cd kraken2_database &&
+        kraken2-build 
+          --standard
+	  --threads \${GALAXY_SLOTS:-1}
+          --db '${kraken2_db_name}'
+          --kmer-len ${kmer_len}
+          --minimizer-len ${minimizer_len}
+          --minimizer-spaces ${minimizer_spaces} &&
+        cd .. &&
+        python '$__tool_directory__/make_json.py' --db '${kraken2_db_name}' --out '${out_file}'
+    ]]>
+    </command>
+    <inputs>
+        <param name="kmer_len" type="integer" value="35" label="K-mer length in BP" />
+        <param name="minimizer_len" type="integer" value="31" label="Minimizer length" />
+	<param name="minimizer_spaces" type="integer" value="6" label="Minimizer spaces" />
+    </inputs>
+    <outputs>
+        <data name="out_file" format="data_manager_json" />
+    </outputs>
+    <help>
+    </help>
+    <citations>
+        <citation type="doi">10.1186/gb-2014-15-3-r46</citation>
+    </citations>
+</tool>
