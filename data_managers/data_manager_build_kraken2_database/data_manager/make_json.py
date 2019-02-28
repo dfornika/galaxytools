@@ -9,11 +9,11 @@ def main(args):
     data_manager_entry['value'] = args.database.lower()
     data_manager_entry['name'] = args.database
     data_manager_entry['path'] = '.'
-    data_manager_json = dict(data_tables=dict(kraken_databases=data_manager_entry))
+    data_manager_json = dict(data_tables=dict(kraken2_databases=data_manager_entry))
     params = json.loads(open(args.output).read())
     target_directory = params['output_data'][0]['extra_files_path']
     os.mkdir(target_directory)
-    output_path = os.path.join(os.getcwd(), 'kraken-database')
+    output_path = os.path.join(os.getcwd(), 'kraken2-database')
     for filename in os.listdir(output_path):
         shutil.move(os.path.join(output_path, filename), target_directory)
     file(args.output, 'w').write(json.dumps(data_manager_json))

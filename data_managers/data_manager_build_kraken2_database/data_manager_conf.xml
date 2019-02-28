@@ -29,4 +29,19 @@
 	    </output>
 	</data_table>
     </data_manager>
+    <data_manager tool_file="data_manager/kraken2_build_standard.xml" id="kraken2_build_standard" version="1.0">
+	<data_table name="kraken2_databases">
+	    <output>
+		<column name="value"/>
+		<column name="name"/>
+		<column name="path" output_ref="out_file">
+		    <move type="directory" relativize_symlinks="True">
+			<target base="${GALAXY_DATA_MANAGER_DATA_PATH}">kraken2_database/${value}</target>
+		    </move>
+		    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/kraken2_database/${value}</value_translation>
+		    <value_translation type="function">abspath</value_translation>
+		</column>
+	    </output>
+	</data_table>
+    </data_manager>
 </data_managers>
