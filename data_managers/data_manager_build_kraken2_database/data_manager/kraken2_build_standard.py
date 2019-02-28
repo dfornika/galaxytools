@@ -27,13 +27,22 @@ def kraken2_build_standard(data_manager_dict, kraken2_args, params, target_direc
         '--minimizer-spaces', str(kraken2_args["minimizer_spaces"]),
         '--db', database_name
     ]
-    pprint(args)
     proc = subprocess.Popen(args=args, shell=False, cwd=target_directory)
     return_code = proc.wait()
     if return_code:
         print("Error building database.", file=sys.stderr)
         sys.exit( return_code )
-
+    args = [
+        'kraken2-build',
+        '--threads', str(kraken2_args["threads"]),
+        '--clean',
+        '--db', database_name
+    ]
+    proc = subprocess.Popen(args=args, shell=False, cwd=target_directory)
+    return_code = proc.wait()
+    if return_code:
+        print("Error building database.", file=sys.stderr)
+        sys.exit( return_code )
     data_table_entry = {
         "value": database_name,
         "name": database_name,
