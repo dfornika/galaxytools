@@ -9,34 +9,17 @@
     <version_command>kraken2 --version</version_command>
     <command detect_errors="exit_code">
         <![CDATA[
+        @SET_DATABASE_PATH@ &&
         kraken2
             --threads \${GALAXY_SLOTS:-1}
-            @INPUT_DATABASE@
+	    --db '$kraken2_database'
             #if $single_paired.single_paired_selector == 'yes'
-                #if $forward_input.is_of_type( 'fastq' ):
-                    --fastq-input
-                #else:
-                    --fasta-input
-                #end if
                 '${single_paired.forward_input}' '${single_paired.reverse_input}'
-                ${single_paired.check_names}
             #elif $single_paired.single_paired_selector == "collection":
-                #if $single_paired.input_pair.forward.is_of_type( 'fastq' ):
-                    --fastq-input
-                #else:
-                    --fasta-input
-                #end if
                 '${single_paired.input_pair.forward}' '${single_paired.input_pair.reverse}'
-                ${single_paired.check_names}
             #else:
-                #if $single_paired.input_sequences.is_of_type('fastq')
-                    --fastq-input
-                #else:
-                    --fasta-input
-                #end if
                 '${single_paired.input_sequences}'
             #end if
-            --db '$database'
             > '$output'
 	]]>
     </command>
@@ -49,17 +32,20 @@
             </param>
             <when value="collection">
                 <param format="fasta,fastq" name="input_pair" type="data_collection" collection_type="paired" label="Collection of paired reads" help="FASTA or FASTQ datasets" />
-                <param name="check_names" argument="--check-names" type="boolean" checked="False" truevalue="--paired --check-names" falsevalue="--paired" label="Verify read names match"/>
             </when>
             <when value="yes">
                 <param format="fasta,fastq" name="forward_input" type="data" label="Forward strand" help="FASTA or FASTQ dataset"/>
                 <param format="fasta,fastq" name="reverse_input" type="data" label="Reverse strand" help="FASTA or FASTQ dataset"/>
-                <param name="check_names" type="boolean" checked="False" truevalue="--paired --check-names" falsevalue="--paired" label="Verify read names match" help="--check-names" />
             </when>
             <when value="no">
                 <param format="fasta,fastq" label="Input sequences" name="input_sequences" type="data" help="FASTA or FASTQ datasets"/>
             </when>
         </conditional>
+	<param name="kraken2_database" type="select">
+	    <options from_data_table="kraken2_databases">
+	        <validator type="no_options" message="No Kraken2 databases are available" />
+            </options>
+        </param>
     </inputs>
     <outputs>
         <data name="output" format="" />
@@ -71,7 +57,7 @@
             <param name="split_reads" value="false"/>
             <param name="quick" value="no"/>
             <param name="only-classified-output" value="false"/>
-            <param name="kraken_database" value="new_style_test_entry"/>
+            <param name="kraken2_database" value="new_style_test_entry"/>
             <output name="output" file="kraken_test1_output.tab" ftype="tabular"/>
         </test>
     </tests>
