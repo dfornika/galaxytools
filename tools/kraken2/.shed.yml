@@ -1,0 +1,15 @@
+categories:
+- Metagenomics
+description: Kraken2 for taxonomic designation.
+homepage_url: http://ccb.jhu.edu/software/kraken2/
+long_description: |
+  Kraken2 is a system for assigning taxonomic labels to short DNA
+  sequences. Kraken 2 uses exact k-mer matches to achieve high accuracy
+  and fast classification speeds. This classifier matches each k-mer
+  within a query sequence to the lowest common ancestor (LCA) of all
+  genomes containing the given k-mer. The k-mer assignments inform the
+  classification algorithm.
+name: kraken2
+owner: dfornika
+remote_repository_url: https://github.com/dfornika/galaxytools/blob/master/tools/kraken2
+type: unrestricted

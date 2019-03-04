@@ -4,22 +4,81 @@
         <import>macros.xml</import>
     </macros>
     <requirements>
-        <requirement type="package" version="@TOOL_VERSION@">mash</requirement>
+        <requirement type="package" version="@TOOL_VERSION@">kraken2</requirement>
     </requirements>
     <version_command>kraken2 --version</version_command>
-    <command detect_errors="exit_code"><![CDATA[
+    <command detect_errors="exit_code">
+        <![CDATA[
         kraken2
-    ]]></command>
+            --threads \${GALAXY_SLOTS:-1}
+            @INPUT_DATABASE@
+            #if $single_paired.single_paired_selector == 'yes'
+                #if $forward_input.is_of_type( 'fastq' ):
+                    --fastq-input
+                #else:
+                    --fasta-input
+                #end if
+                '${single_paired.forward_input}' '${single_paired.reverse_input}'
+                ${single_paired.check_names}
+            #elif $single_paired.single_paired_selector == "collection":
+                #if $single_paired.input_pair.forward.is_of_type( 'fastq' ):
+                    --fastq-input
+                #else:
+                    --fasta-input
+                #end if
+                '${single_paired.input_pair.forward}' '${single_paired.input_pair.reverse}'
+                ${single_paired.check_names}
+            #else:
+                #if $single_paired.input_sequences.is_of_type('fastq')
+                    --fastq-input
+                #else:
+                    --fasta-input
+                #end if
+                '${single_paired.input_sequences}'
+            #end if
+            --db '$database'
+            > '$output'
+	]]>
+    </command>
     <inputs>
-        <param name="" type="" format="" />
+        <conditional name="single_paired">
+            <param name="single_paired_selector" type="select" label="Single or paired reads" help="--paired">
+                <option value="collection">Collection</option>
+                <option value="yes">Paired</option>
+                <option selected="True" value="no">Single</option>
+            </param>
+            <when value="collection">
+                <param format="fasta,fastq" name="input_pair" type="data_collection" collection_type="paired" label="Collection of paired reads" help="FASTA or FASTQ datasets" />
+                <param name="check_names" argument="--check-names" type="boolean" checked="False" truevalue="--paired --check-names" falsevalue="--paired" label="Verify read names match"/>
+            </when>
+            <when value="yes">
+                <param format="fasta,fastq" name="forward_input" type="data" label="Forward strand" help="FASTA or FASTQ dataset"/>
+                <param format="fasta,fastq" name="reverse_input" type="data" label="Reverse strand" help="FASTA or FASTQ dataset"/>
+                <param name="check_names" type="boolean" checked="False" truevalue="--paired --check-names" falsevalue="--paired" label="Verify read names match" help="--check-names" />
+            </when>
+            <when value="no">
+                <param format="fasta,fastq" label="Input sequences" name="input_sequences" type="data" help="FASTA or FASTQ datasets"/>
+            </when>
+        </conditional>
     </inputs>
     <outputs>
         <data name="output" format="" />
     </outputs>
     <tests>
+        <test>
+            <param name="single_paired_selector" value="no"/>
+            <param name="input_sequences" value="kraken_test1.fa" ftype="fasta"/>
+            <param name="split_reads" value="false"/>
+            <param name="quick" value="no"/>
+            <param name="only-classified-output" value="false"/>
+            <param name="kraken_database" value="new_style_test_entry"/>
+            <output name="output" file="kraken_test1_output.tab" ftype="tabular"/>
+        </test>
     </tests>
-    <help><![CDATA[
-    ]]></help>
-    <citations>
-    </citations>
+    <help>
+      <![CDATA[
+Kraken is a taxonomic classification system using exact k-mer matches to achieve high accuracy and fast classification speeds. This classifier matches each k-mer within a query sequence to the lowest common ancestor (LCA) of all genomes containing the given k-mer. The k-mer assignments inform the classification algorithm. 
+      ]]>
+    </help>
+    <expand macro="citations" />
 </tool>
