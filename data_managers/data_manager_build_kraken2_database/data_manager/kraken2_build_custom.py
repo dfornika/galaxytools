@@ -15,41 +15,45 @@ from pprint import pprint
 
 DATA_TABLE_NAME = "kraken2_databases"
 
-def kraken2_build_standard(data_manager_dict, kraken2_args, params, target_directory, data_table_name=DATA_TABLE_NAME):
-    today = datetime.date.today().isoformat()
-    database_name = "_".join([
-        today,
-        "standard",
-        "kmer-len=" + str(kraken2_args["kmer_len"]),
-        "minimizer-len=" + str(kraken2_args["minimizer_len"]),
-        "minimizer-spaces=" + str(kraken2_args["minimizer_spaces"]),
-    ])
-    args = [
-        'kraken2-build',
-        '--threads', str(kraken2_args["threads"]),
-        '--standard',
-        '--kmer-len', str(kraken2_args["kmer_len"]),
-        '--minimizer-len', str(kraken2_args["minimizer_len"]),
-        '--minimizer-spaces', str(kraken2_args["minimizer_spaces"]),
-        '--db', database_name
-    ]
-    proc = subprocess.Popen(args=args, shell=False, cwd=target_directory)
+def run(args, cwd):
+    proc = subprocess.Popen(args=args, shell=False, cwd=cwd)
     return_code = proc.wait()
     if return_code:
         print("Error building database.", file=sys.stderr)
         sys.exit( return_code )
+
+
+def kraken2_build(data_manager_dict, kraken2_args, params, target_directory, data_table_name=DATA_TABLE_NAME):
+    today = datetime.date.today().isoformat()
+    database_name = "_".join([today, "custom"])
+    
+    args = [
+        'kraken2-build',
+        '--threads', str(kraken2_args["threads"]),
+        '--download-taxonomy',
+        '--db', database_name
+    ]
+    
+    # run(args, target_directory)
+    
+    args = [
+        'kraken2-build',
+        '--threads', str(kraken2_args["threads"]),
+        '--add-to-library', kraken2_args["fasta"],
+        '--db', database_name
+    ]
+    
+    run(args, target_directory)
+        
     args = [
         'kraken2-build',
         '--threads', str(kraken2_args["threads"]),
         '--clean',
         '--db', database_name
     ]
-    proc = subprocess.Popen(args=args, shell=False, cwd=target_directory)
-    return_code = proc.wait()
-    if return_code:
-        print("Error building database.", file=sys.stderr)
-        sys.exit( return_code )
 
+    run(args, target_directory)
+    
     data_table_entry = {
         "value": database_name,
         "name": database_name,
@@ -72,6 +76,7 @@ def main():
     parser.add_argument( '-k', '--kmer-len', dest='kmer_len', type=int, default=35, help='kmer length' )
     parser.add_argument( '-m', '--minimizer-len', dest='minimizer_len', type=int, default=31, help='minimizer length' )
     parser.add_argument( '-s', '--minimizer-spaces', dest='minimizer_spaces', default=6, help='minimizer spaces' )
+    parser.add_argument( '-f', '--fasta', dest='fasta', help='fasta' )
     parser.add_argument( '-t', '--threads', dest='threads', default=1, help='threads' )
     args = parser.parse_args()
 
@@ -79,11 +84,12 @@ def main():
         "kmer_len": args.kmer_len,
         "minimizer_len": args.minimizer_len,
         "minimizer_spaces": args.minimizer_spaces,
+        "fasta": args.fasta,
         "threads": args.threads,
     }
     
     params = json.loads(open(args.params).read())
-
+    pprint(params)
     target_directory = params['output_data'][0]['extra_files_path']
 
     try:
@@ -96,14 +102,15 @@ def main():
 
     data_manager_dict = {}
 
-    kraken2_build_standard(
+    # build the index
+    kraken2_build(
         data_manager_dict,
         kraken2_args,
         params,
         target_directory
     )
 
-
+    # save info to json file
     open(args.params, 'wb').write(json.dumps(data_manager_dict))
 
 
