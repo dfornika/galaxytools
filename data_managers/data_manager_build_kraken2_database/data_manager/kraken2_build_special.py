@@ -22,22 +22,41 @@ def run(args, cwd):
         sys.exit( return_code )
 
 def kraken2_build_standard(data_manager_dict, kraken2_args, target_directory, data_table_name=DATA_TABLE_NAME):
-    today = datetime.date.today().isoformat()
-    database_name = "_".join([
-        today,
+    
+    now = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H%M%SZ")
+
+    special_database_names = {
+        "rdp": "RDP",
+        "greengenes": "Greengenes",
+        "silva": "Silva",
+    }
+    
+    database_value = "_".join([
+        now,
         kraken2_args["special"],
-        "kmer-len=" + str(kraken2_args["kmer_len"]),
-        "minimizer-len=" + str(kraken2_args["minimizer_len"]),
-        "minimizer-spaces=" + str(kraken2_args["minimizer_spaces"]),
+        "kmer-len", str(kraken2_args["kmer_len"]),
+        "minimizer-len", str(kraken2_args["minimizer_len"]),
+        "minimizer-spaces", str(kraken2_args["minimizer_spaces"]),
     ])
+
+    database_name = " ".join([
+        special_database_names[kraken2_args["special"]],
+        "(Created:",
+        now + ",",
+        "kmer-len=" + str(kraken2_args["kmer_len"]) + ",",
+        "minimizer-len=" + str(kraken2_args["minimizer_len"]) + ",",
+        "minimizer-spaces=" + str(kraken2_args["minimizer_spaces"]) + ")",
+    ])
+
+    database_path = database_value
     
     args = [
         '--threads', str(kraken2_args["threads"]),
-        '--special', kraken2_args["special"]
+        '--special', kraken2_args["special"],
         '--kmer-len', str(kraken2_args["kmer_len"]),
         '--minimizer-len', str(kraken2_args["minimizer_len"]),
         '--minimizer-spaces', str(kraken2_args["minimizer_spaces"]),
-        '--db', database_name
+        '--db', database_path
     ]
 
     run(['kraken2-build'] + args, target_directory)
@@ -45,15 +64,15 @@ def kraken2_build_standard(data_manager_dict, kraken2_args, target_directory, da
     args = [
         '--threads', str(kraken2_args["threads"]),
         '--clean',
-        '--db', database_name
+        '--db', database_path
     ]
 
     run(['kraken2-build'] + args, target_directory)
 
     data_table_entry = {
-        "value": database_name,
+        "value": database_value,
         "name": database_name,
-        "path": database_name
+        "path": database_path,
     }
     
     _add_data_table_entry(data_manager_dict, data_table_entry)
@@ -96,13 +115,15 @@ def main():
         else:
             raise
 
+    data_manager_output = {}
+    
     kraken2_build_standard(
-        data_manager_input,
+        data_manager_output,
         kraken2_args,
         target_directory,
     )
 
-    open(args.data_manager_json, 'wb').write(json.dumps(data_manager_input))
+    open(args.data_manager_json, 'wb').write(json.dumps(data_manager_output))
 
 
 if __name__ == "__main__":

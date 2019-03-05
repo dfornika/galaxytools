@@ -21,46 +21,47 @@ def run(args, cwd):
         print("Error building database.", file=sys.stderr)
         sys.exit( return_code )
 
-def kraken2_build_standard(data_manager_dict, kraken2_args, target_directory, data_table_name=DATA_TABLE_NAME):
+def kraken2_build_minikraken(data_manager_dict, minikraken2_version, target_directory, data_table_name=DATA_TABLE_NAME):
+    
     now = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H%M%SZ")
     
     database_value = "_".join([
         now,
-        "standard",
-        "kmer-len" + str(kraken2_args["kmer_len"]),
-        "minimizer-len" + str(kraken2_args["minimizer_len"]),
-        "minimizer-spaces" + str(kraken2_args["minimizer_spaces"]),
+        "minikraken2",
+        minikraken2_version,
+        "8GB",
     ])
 
     database_name = " ".join([
-        "Standard",
+        "Minikraken2",
+        minikraken2_version,
         "(Created:",
-        now + ",",
-        "kmer-len=" + str(kraken2_args["kmer_len"]) + ",",
-        "minimizer-len=" + str(kraken2_args["minimizer_len"]) + ",",
-        "minimizer-spaces=" + str(kraken2_args["minimizer_spaces"]) + ")",
+        now + ")"
     ])
 
     database_path = database_value
     
     args = [
-        '--threads', str(kraken2_args["threads"]),
-        '--standard',
-        '--kmer-len', str(kraken2_args["kmer_len"]),
-        '--minimizer-len', str(kraken2_args["minimizer_len"]),
-        '--minimizer-spaces', str(kraken2_args["minimizer_spaces"]),
-        '--db', database_path
+        'https://ccb.jhu.edu/software/kraken2/dl/minikraken2_' + minikraken2_version + '_8GB.tgz'
     ]
 
-    run(['kraken2-build'] + args, target_directory)
+    run(['wget'] + args, target_directory)
 
     args = [
-        '--threads', str(kraken2_args["threads"]),
-        '--clean',
-        '--db', database_path
+        '-p',
+        database_path,
     ]
 
-    run(['kraken2-build'] + args, target_directory)
+    run(['mkdir'] + args, target_directory)
+    
+    args = [
+        '-xvzf',
+        'minikraken2_' + minikraken2_version + '_8GB.tgz',
+        '-C',
+        database_path,
+    ]
+
+    run(['tar'] + args, target_directory)
 
     data_table_entry = {
         "value": database_value,
@@ -81,18 +82,10 @@ def _add_data_table_entry(data_manager_dict, data_table_entry, data_table_name=D
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('data_manager_json')
-    parser.add_argument( '-k', '--kmer-len', dest='kmer_len', type=int, default=35, help='kmer length' )
-    parser.add_argument( '-m', '--minimizer-len', dest='minimizer_len', type=int, default=31, help='minimizer length' )
-    parser.add_argument( '-s', '--minimizer-spaces', dest='minimizer_spaces', default=6, help='minimizer spaces' )
+    parser.add_argument( '-v', '--minikraken2-version', dest='minikraken2_version', default="v2", help='MiniKraken2 version (v1 or v2)' )
     parser.add_argument( '-t', '--threads', dest='threads', default=1, help='threads' )
-    args = parser.parse_args()
 
-    kraken2_args = {
-        "kmer_len": args.kmer_len,
-        "minimizer_len": args.minimizer_len,
-        "minimizer_spaces": args.minimizer_spaces,
-        "threads": args.threads,
-    }
+    args = parser.parse_args()
     
     data_manager_input = json.loads(open(args.data_manager_json).read())
 
@@ -108,9 +101,9 @@ def main():
 
     data_manager_output = {}
     
-    kraken2_build_standard(
+    kraken2_build_minikraken(
         data_manager_output,
-        kraken2_args,
+        args.minikraken2_version,
         target_directory,
     )
 
