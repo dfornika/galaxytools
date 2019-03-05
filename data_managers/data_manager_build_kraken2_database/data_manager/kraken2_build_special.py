@@ -25,14 +25,15 @@ def kraken2_build_standard(data_manager_dict, kraken2_args, target_directory, da
     today = datetime.date.today().isoformat()
     database_name = "_".join([
         today,
-        "standard",
+        kraken2_args["special"],
         "kmer-len=" + str(kraken2_args["kmer_len"]),
         "minimizer-len=" + str(kraken2_args["minimizer_len"]),
         "minimizer-spaces=" + str(kraken2_args["minimizer_spaces"]),
     ])
+    
     args = [
         '--threads', str(kraken2_args["threads"]),
-        '--standard',
+        '--special', kraken2_args["special"]
         '--kmer-len', str(kraken2_args["kmer_len"]),
         '--minimizer-len', str(kraken2_args["minimizer_len"]),
         '--minimizer-spaces', str(kraken2_args["minimizer_spaces"]),
@@ -68,6 +69,7 @@ def _add_data_table_entry(data_manager_dict, data_table_entry, data_table_name=D
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('data_manager_json')
+    parser.add_argument( '-b', '--db-type', dest='db_type', help='database type (one of: silva, rdp, greengenes)' )
     parser.add_argument( '-k', '--kmer-len', dest='kmer_len', type=int, default=35, help='kmer length' )
     parser.add_argument( '-m', '--minimizer-len', dest='minimizer_len', type=int, default=31, help='minimizer length' )
     parser.add_argument( '-s', '--minimizer-spaces', dest='minimizer_spaces', default=6, help='minimizer spaces' )
@@ -75,6 +77,7 @@ def main():
     args = parser.parse_args()
 
     kraken2_args = {
+        "special": args.db_type,
         "kmer_len": args.kmer_len,
         "minimizer_len": args.minimizer_len,
         "minimizer_spaces": args.minimizer_spaces,

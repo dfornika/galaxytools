@@ -23,36 +23,43 @@ def run(args, cwd):
         sys.exit( return_code )
 
 
-def kraken2_build(data_manager_dict, kraken2_args, params, target_directory, data_table_name=DATA_TABLE_NAME):
+def kraken2_build(data_manager_dict, kraken2_args, database_name, params, target_directory, data_table_name=DATA_TABLE_NAME):
     today = datetime.date.today().isoformat()
-    database_name = "_".join([today, "custom"])
     
     args = [
-        'kraken2-build',
         '--threads', str(kraken2_args["threads"]),
         '--download-taxonomy',
         '--db', database_name
     ]
     
-    # run(args, target_directory)
+    run(['kraken2-build'] + args, target_directory)
     
     args = [
-        'kraken2-build',
         '--threads', str(kraken2_args["threads"]),
         '--add-to-library', kraken2_args["fasta"],
         '--db', database_name
     ]
     
-    run(args, target_directory)
-        
+    run(['kraken2-build'] + args, target_directory)
+
     args = [
-        'kraken2-build',
+        '--threads', str(kraken2_args["threads"]),
+        '--build',
+        '--kmer-len', str(kraken2_args["kmer_len"]),
+        '--minimizer-len', str(kraken2_args["minimizer_len"]),
+        '--minimizer-spaces', str(kraken2_args["minimizer_spaces"]),
+        '--db', database_name
+    ]
+    
+    run(['kraken2-build'] + args, target_directory)
+    
+    args = [
         '--threads', str(kraken2_args["threads"]),
         '--clean',
         '--db', database_name
     ]
 
-    run(args, target_directory)
+    run(['kraken2-build'] + args, target_directory)
     
     data_table_entry = {
         "value": database_name,
@@ -73,6 +80,7 @@ def _add_data_table_entry(data_manager_dict, data_table_name, data_table_entry):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('params')
+    parser.add_argument( '-d', '--db', dest='database_name', help='database name' )
     parser.add_argument( '-k', '--kmer-len', dest='kmer_len', type=int, default=35, help='kmer length' )
     parser.add_argument( '-m', '--minimizer-len', dest='minimizer_len', type=int, default=31, help='minimizer length' )
     parser.add_argument( '-s', '--minimizer-spaces', dest='minimizer_spaces', default=6, help='minimizer spaces' )
