@@ -9,10 +9,9 @@
     <version_command>kraken2 --version</version_command>
     <command detect_errors="exit_code">
         <![CDATA[
-        @SET_DATABASE_PATH@ &&
         kraken2
             --threads \${GALAXY_SLOTS:-1}
-	    --db '$kraken2_database'
+	    --db '${kraken2_database.fields.path}'
             #if $single_paired.single_paired_selector == 'yes'
                 '${single_paired.forward_input}' '${single_paired.reverse_input}'
             #elif $single_paired.single_paired_selector == "collection":
