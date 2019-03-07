@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<tool id="mash_build_sketch_refseq" name="Mash RefSeq Sketch Builder" tool_type="manage_data" version="2.0">
+    <description>database builder</description>
+    <requirements>
+        <requirement type="package" version="2.1">mash</requirement>
+    </requirements>
+    <version_command>mash --version</version_command>
+    <command detect_errors="exit_code">
+    <![CDATA[
+        python '$__tool_directory__/mash_build_sketch_refseq.py'
+          '${out_file}'
+          --threads \${GALAXY_SLOTS:-1}
+	  --sketch-type ${sketch_type}
+    ]]>
+    </command>
+    <inputs>
+      <param name="sketch_type" type="select" multiple="false" label="Select MiniKraken2 database version to download">
+	    <option value="genome">genome</option>
+            <option value="plasmid">plasmid</option>
+	    <option value="genome+plasmid">genome+plasmid</option>
+        </param>
+    </inputs>
+    <outputs>
+        <data name="out_file" format="data_manager_json" />
+    </outputs>
+    <help>
+    </help>
+    <citations>
+        <citation type="doi">10.1186/gb-2014-15-3-r46</citation>
+    </citations>
+</tool>
