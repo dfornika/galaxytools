@@ -1,0 +1,47 @@
+<tool id="augur_parse" name="augur parse" version="@TOOL_VERSION@+galaxy0">
+    <description></description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <requirements>
+        <requirement type="package" version="@TOOL_VERSION@">augur</requirement>
+    </requirements>
+    <version_command>augur --version</version_command>
+    <command detect_errors="exit_code"><![CDATA[
+        augur parse
+          --sequences '$sequences'
+          --fields $fields
+          --separator '$separator'
+          --output-sequences '$output_sequences'
+          --output-metadata '$output_metadata'
+    ]]></command>
+    <inputs>
+        <param name="sequences" type="data" format="fasta" label="Sequences"/>
+        <param name="fields" type="text" label="Fields in fasta header"/>
+        <param name="separator" type="text" value="|" label="Separator in fasta header">
+            <sanitizer>
+                <valid initial="string.printable">
+                    <remove value="&apos;"/>
+                </valid>
+                <mapping initial="none">
+                </mapping>
+            </sanitizer>
+        </param>
+    </inputs>
+    <outputs>
+        <data name="output_sequences" format="fasta" />
+        <data name="output_metadata" format="tabular" />
+    </outputs>
+    <tests>
+        <test>
+            <param name="sequences" value="augur_parse_test_0_sequences.input.fasta" />
+            <param name="fields" value="strain country year" />
+            <output name="output_sequences" file="augur_parse_test_0_sequences.output.fasta" />
+            <output name="output_metadata" file="augur_parse_test_0_metadata.output.csv" />
+        </test>
+    </tests>
+    <help><![CDATA[
+Parse delimited fields from FASTA sequence names into a TSV and FASTA file.
+    ]]></help>
+    <expand macro="citations" />
+</tool>

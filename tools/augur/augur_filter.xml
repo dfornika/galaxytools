@@ -1,0 +1,37 @@
+<tool id="augur_filter" name="augur filter" version="@TOOL_VERSION@+galaxy0">
+    <description></description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <requirements>
+        <requirement type="package" version="@TOOL_VERSION@">augur</requirement>
+    </requirements>
+    <version_command>augur --version</version_command>
+    <command detect_errors="exit_code"><![CDATA[
+        augur filter
+          --sequences '$sequences'
+          --metadata '$metadata'
+          --exclude '$exclude'
+          --output '$output'
+    ]]></command>
+    <inputs>
+        <param name="sequences" type="data" format="fasta" label="Sequences"/>
+        <param name="metadata" type="data" format="tabular" label="Metadata"/>
+        <param name="exclude" type="data" format="tabular" label="Excluded Strains"/>
+    </inputs>
+    <outputs>
+      <data name="output" format="fasta" />
+    </outputs>
+    <tests>
+        <test>
+            <param name="sequences" value="augur_filter_test_0_sequences.input.fasta" />
+            <param name="metadata" value="augur_filter_test_0_metadata.input.csv" />
+            <param name="exclude" value="augur_filter_test_0_excluded_strains.input.csv" />
+            <output name="output" file="augur_filter_test_0_output.output.fasta" />
+        </test>
+    </tests>
+    <help><![CDATA[
+Filter and subsample a sequence set.
+    ]]></help>
+    <expand macro="citations" />
+</tool>
