@@ -4,5 +4,7 @@ ATTCGATC
 ATGCGATC
 >strain-03
 ATTCCATC
+>reference
+ATTGGATC
 >strain-04
-ATTCGTC
+ATTCGTC-
