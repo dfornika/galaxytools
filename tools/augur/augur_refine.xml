@@ -1,0 +1,24 @@
+<tool id="augur_refine" name="augur refine" version="@TOOL_VERSION@+galaxy0">
+    <description></description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <requirements>
+        <requirement type="package" version="@TOOL_VERSION@">augur</requirement>
+    </requirements>
+    <version_command>augur --version</version_command>
+    <command detect_errors="exit_code"><![CDATA[
+        augur refine
+    ]]></command>
+    <inputs>
+    </inputs>
+    <outputs>
+    </outputs>
+    <tests>
+        <test>
+        </test>
+    </tests>
+    <help><![CDATA[
+    ]]></help>
+    <expand macro="citations" />
+</tool>
