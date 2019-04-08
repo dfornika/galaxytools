@@ -8,14 +8,22 @@
     </requirements>
     <version_command>augur --version</version_command>
     <command detect_errors="exit_code"><![CDATA[
+        ln -s '$alignment' alignment.fasta &&
         augur tree
+          --nthreads \${GALAXY_SLOTS:-1}
+          --alignment alignment.fasta
+          --output '$output'
     ]]></command>
     <inputs>
+        <param name="alignment" type="data" format="fasta" label="Alignment"/>
     </inputs>
     <outputs>
+        <data name="output" format="newick" />
     </outputs>
     <tests>
         <test>
+            <param name="alignment" value="augur_tree_test_0_alignment.input.fasta" />
+            <param name="output" file="augur_tree_test_0_output.output.nwk" />
         </test>
     </tests>
     <help><![CDATA[
