@@ -13,7 +13,7 @@
           --sequences '$sequences'
           --reference-sequence '$reference_sequence'
           $fill_gaps
-          --output 'output'
+          --output '$output'
     ]]></command>
     <inputs>
         <param name="sequences" type="data" format="fasta" label="Sequences"/>
@@ -21,23 +21,13 @@
         <param name="fill_gaps" type="boolean" checked="false" truevalue="--fill-gaps" falsevalue="" label="Fill Gaps"/>
     </inputs>
     <outputs>
-        <data name="pre_aligner_output" format="fasta" >
-            <discover_datasets pattern="output.pre_aligner.fasta" format="fasta" visible="true" />
-        </data>
-        <data name="post_aligner_output" format="fasta" >
-            <discover_datasets pattern="output.post_aligner.fasta" format="fasta" visible="true" />
-        </data>
-        <data name="log" format="text" >
-            <discover_datasets pattern="*.log" format="text" visible="true" />
-        </data>
+        <data name="output" format="fasta" />
     </outputs>
     <tests>
         <test>
             <param name="sequences" value="augur_align_test_0_sequences.input.fasta" />
             <param name="reference_sequence" value="augur_align_test_0_reference_sequence.input.fasta" />
 	    <param name="fill_gaps" value="false" />
-            <output name="pre_aligner_output" file="augur_align_test_0_pre_aligner_output.output.fasta" />
-            <output name="post_aligner_output" file="augur_align_test_0_post_aligner_output.output.fasta" />
         </test>
     </tests>
     <help><![CDATA[
