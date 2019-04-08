@@ -27,7 +27,8 @@
         <test>
             <param name="sequences" value="augur_align_test_0_sequences.input.fasta" />
             <param name="reference_sequence" value="augur_align_test_0_reference_sequence.input.fasta" />
-	    <param name="fill_gaps" value="false" />
+            <param name="fill_gaps" value="false" />
+            <param name="output" file="augur_align_test_0_output.output.fasta" />
         </test>
     </tests>
     <help><![CDATA[
