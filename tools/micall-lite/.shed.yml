@@ -1,0 +1,10 @@
+categories:
+- Viral Analysis
+description: ''
+long_description: |
+  
+name: micall-lite
+owner: dfornika
+remote_repository_url: https://github.com/dfornika/galaxytools/tree/master/tools/micall-lite
+homepage_url: https://github.com/PoonLab/MiCall-Lite
+type: unrestricted

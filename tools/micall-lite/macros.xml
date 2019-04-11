@@ -1,0 +1,9 @@
+<macros>
+    <token name="@TOOL_VERSION@">0.1rc</token>
+    <xml name="citations">
+        <citations>
+            <citation type="bibtex">
+            </citation>
+        </citations>
+    </xml>
+</macros>

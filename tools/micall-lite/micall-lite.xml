@@ -1,0 +1,48 @@
+<tool id="micall-lite" name="micall-lite" version="@TOOL_VERSION@+galaxy0">
+    <description></description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <requirements>
+        <requirement type="package" version="@TOOL_VERSION@">micall-lite</requirement>
+    </requirements>
+    <version_command>micall --version</version_command>
+    <command detect_errors="exit_code"><![CDATA[
+      micall
+        #if $single_paired.single_paired_selector == 'yes'
+            '${single_paired.forward_input}' '${single_paired.reverse_input}'
+        #elif $single_paired.single_paired_selector == "collection":
+            '${single_paired.input_pair.forward}' '${single_paired.input_pair.reverse}'
+        #else:
+            '${single_paired.input_sequences}'
+        #end if
+    ]]></command>
+    <inputs>
+        <conditional name="single_paired">
+            <param name="single_paired_selector" type="select" label="Single or paired reads" help="--paired">
+                <option value="collection">Collection</option>
+                <option value="yes">Paired</option>
+                <option selected="True" value="no">Single</option>
+            </param>
+            <when value="collection">
+                <param format="fasta,fastq" name="input_pair" type="data_collection" collection_type="paired" label="Collection of paired reads" help="FASTA or FASTQ datasets" />
+            </when>
+            <when value="yes">
+                <param format="fasta,fastq" name="forward_input" type="data" label="Forward strand" help="FASTA or FASTQ dataset"/>
+                <param format="fasta,fastq" name="reverse_input" type="data" label="Reverse strand" help="FASTA or FASTQ dataset"/>
+            </when>
+            <when value="no">
+                <param format="fasta,fastq" label="Input sequences" name="input_sequences" type="data" help="FASTA or FASTQ datasets"/>
+            </when>
+        </conditional>
+    </inputs>
+    <outputs>
+    </outputs>
+    <tests>
+        <test>
+        </test>
+    </tests>
+    <help><![CDATA[
+    ]]></help>
+    <expand macro="citations" />
+</tool>
