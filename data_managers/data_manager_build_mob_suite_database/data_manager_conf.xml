@@ -1,5 +1,5 @@
 <data_managers>
-    <data_manager tool_file="data_manager/mash_build_mob_suite_database.xml" id="mob_suite_build_database" version="1.0">
+    <data_manager tool_file="data_manager/mob_suite_build_database.xml" id="mob_suite_build_database" version="1.0">
 	<data_table name="mob_suite_databases">
 	    <output>
 		<column name="value"/>
