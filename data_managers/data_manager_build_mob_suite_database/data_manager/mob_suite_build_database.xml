@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<tool id="mob_suite_build_database" name="MOB-Suite Database Builder" tool_type="manage_data" version="1.4.9.1">
+    <description>database builder</description>
+    <requirements>
+        <requirement type="package" version="1.4.9.1">mob_suite</requirement>
+    </requirements>
+    <version_command>echo '1.4.9.1'</version_command>
+    <command detect_errors="exit_code">
+    <![CDATA[
+        python '$__tool_directory__/mob_suite_build_database.py'
+          '${out_file}'
+          --threads \${GALAXY_SLOTS:-1}
+    ]]>
+    </command>
+    <inputs>
+        <param>
+        </param>
+    </inputs>
+    <outputs>
+        <data name="out_file" format="data_manager_json" />
+    </outputs>
+    <help>
+    </help>
+    <citations>
+        <citation type="doi">10.1099/mgen.0.000206</citation>
+    </citations>
+</tool>

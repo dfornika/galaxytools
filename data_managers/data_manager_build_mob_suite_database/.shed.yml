@@ -1,0 +1,11 @@
+categories:
+- Data Managers
+description: Contains data managers that define and populate the mob_suite_databases
+  tool data table.
+homepage_url: https://github.com/dfornika/galaxytools/
+long_description: |
+  The MOB-suite is a modular set of tools for the typing and reconstruction of plasmid sequences from WGS assemblies.
+name: data_manager_build_mob_suite_database
+owner: dfornika
+remote_repository_url: https://github.com/dfornika/galaxytools/tree/master/data_managers/data_manager_build_mob_suite_database/
+type: unrestricted
