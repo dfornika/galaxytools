@@ -15,7 +15,7 @@ import sys
 DATA_TABLE_NAME = "mob_suite_databases"
 
 
-def mob_suite_build_database_mob_init(data_manager_dict, target_directory, data_table_name=DATA_TABLE_NAME):
+def mob_suite_build_database_mob_init(mob_suite_args, target_directory, data_table_name=DATA_TABLE_NAME):
 
     now = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H%M%SZ")
 
@@ -33,26 +33,25 @@ def mob_suite_build_database_mob_init(data_manager_dict, target_directory, data_
     run(['mob_init'] + args, target_directory)
 
     data_table_entry = {
-        "value": database_value,
-        "name": database_name,
-        "path": database_path,
+        "data_tables": {
+            data_table_name: [
+                {
+                    "value": database_value,
+                    "name": database_name,
+                    "path": database_path,
+                }
+            ]
+        }
     }
 
-    _add_data_table_entry(data_manager_dict, data_table_entry)
-
-
-def _add_data_table_entry(data_manager_dict, data_table_entry, data_table_name=DATA_TABLE_NAME):
-    data_manager_dict['data_tables'] = data_manager_dict.get( 'data_tables', {} )
-    data_manager_dict['data_tables'][data_table_name] = data_manager_dict['data_tables'].get( data_table_name, [] )
-    data_manager_dict['data_tables'][data_table_name].append( data_table_entry )
-    return data_manager_dict
+    return data_table_entry
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('data_manager_json')
-    parser.add_argument( '-t', '--threads', dest='threads', default=1, help='threads' )
-
+    parser.add_argument( '--threads', dest='threads', default=1, help='threads' )
+    parser.add_argument( '--mode', dest='mode', default=1, help='database construction mode' )
     args = parser.parse_args()
 
     data_manager_input = json.loads(open(args.data_manager_json).read())
@@ -69,11 +68,14 @@ def main():
 
     data_manager_output = {}
 
-    mob_suite_build_database_mob_init(
-        data_manager_output,
-        args.sketch_type,
-        target_directory,
-    )
+    if str(args.mode) == 'mob_init':
+        mob_suite_args = {}
+        data_manager_output = mob_suite_build_database_mob_init(
+            mob_suite_args,
+            target_directory,
+        )
+    else:
+        sys.exit("Invalid database construction mode")
 
     open(args.data_manager_json, 'wb').write(json.dumps(data_manager_output))
 
