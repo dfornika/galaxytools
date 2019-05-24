@@ -15,7 +15,7 @@ import sys
 DATA_TABLE_NAME = "mob_suite_databases"
 
 
-def mob_suite_build_database_mob_init(mob_suite_args, target_directory, data_table_name=DATA_TABLE_NAME):
+def mob_suite_build_database_mob_init(target_directory, data_table_name=DATA_TABLE_NAME):
 
     now = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H%M%SZ")
 
@@ -30,7 +30,7 @@ def mob_suite_build_database_mob_init(mob_suite_args, target_directory, data_tab
     args = [
     ]
 
-    subprocess.check_call(['mob_init'] + args, target_directory)
+    subprocess.check_call(['mob_init'], target_directory)
 
     data_table_entry = {
         "data_tables": {
@@ -69,9 +69,7 @@ def main():
     data_manager_output = {}
 
     if str(args.mode) == 'mob_init':
-        mob_suite_args = {}
         data_manager_output = mob_suite_build_database_mob_init(
-            mob_suite_args,
             target_directory,
         )
     else:
