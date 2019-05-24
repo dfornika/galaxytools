@@ -30,7 +30,7 @@ def mob_suite_build_database_mob_init(target_directory, data_table_name=DATA_TAB
     args = [
     ]
 
-    subprocess.check_call(['mob_init'], target_directory)
+    subprocess.check_call(['mob_init'], cwd=target_directory)
 
     data_table_entry = {
         "data_tables": {
