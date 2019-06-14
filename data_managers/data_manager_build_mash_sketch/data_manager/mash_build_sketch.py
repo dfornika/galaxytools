@@ -21,10 +21,10 @@ def run(args, cwd):
         print("Error building sketch.", file=sys.stderr)
         sys.exit( return_code )
 
-def mash_build_sketch_refseq(data_manager_dict, sketch_type, target_directory, data_table_name=DATA_TABLE_NAME):
-    
+def mash_build_sketch(data_manager_dict, mash_args, target_directory, data_table_name=DATA_TABLE_NAME):
+
     now = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H%M%SZ")
-    
+
     database_value = "_".join([
         now,
         "refseq" + "." +
@@ -41,19 +41,22 @@ def mash_build_sketch_refseq(data_manager_dict, sketch_type, target_directory, d
     ])
 
     database_path = database_value
-    
+
     args = [
-        'https://gembox.cbcb.umd.edu/mash/refseq.' + sketch_type + '.k21s1000.msh'
+        '-p', mash_args['threads'],
+        '-k', mash_args['kmer_size'],
+        '-s', mash_args['sketch_size'],
+        '-o', 'sketch'
     ]
 
-    run(['wget'] + args, target_directory)
+    subprocess.check_call(['mash', 'sketch'] + args, target_directory)
 
     data_table_entry = {
         "value": database_value,
         "name": database_name,
         "path": database_path,
     }
-    
+
     _add_data_table_entry(data_manager_dict, data_table_entry)
 
 
@@ -67,14 +70,21 @@ def _add_data_table_entry(data_manager_dict, data_table_entry, data_table_name=D
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('data_manager_json')
-    parser.add_argument('--sketch-type', dest='sketch_type', help='Sketch Type (genome or plasmid or genome+plasmid)' )
-    parser.add_argument( '-t', '--threads', dest='threads', default=1, help='threads' )
+    parser.add_argument('--kmer-size', dest='kmer_size', help='K-mer size' )
+    parser.add_argument('--sketch-size', dest='sketch_size', help='Sketch size' )
+    parser.add_argument( '--threads', dest='threads', default=1, help='threads' )
 
     args = parser.parse_args()
-    
+
     data_manager_input = json.loads(open(args.data_manager_json).read())
 
     target_directory = data_manager_input['output_data'][0]['extra_files_path']
+
+    mash_args = {
+        'kmer_size': args.kmer_size,
+        'sketch_size': args.kmer_size,
+        'threads': args.threads,
+    }
 
     try:
         os.mkdir( target_directory )
@@ -85,10 +95,10 @@ def main():
             raise
 
     data_manager_output = {}
-    
-    mash_build_sketch_refseq(
+
+    mash_build_sketch(
         data_manager_output,
-        args.sketch_type,
+        mash_args,
         target_directory,
     )
 
