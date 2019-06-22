@@ -10,17 +10,13 @@
         python '$__tool_directory__/mob_suite_build_database.py'
           '${out_file}'
           --threads \${GALAXY_SLOTS:-1}
-          --mode ${mode.mode}
+          --input '${input}'
+	  --database-name '${database_name}'
     ]]>
     </command>
     <inputs>
-        <conditional name="mode">
-            <param name="mode" type="select" multiple="false" label="Mode">
-                <option value="mob_init">Initialize Standard Database (mob_init)</option>
-            </param>
-            <when value="mob_init">
-            </when>
-        </conditional>
+        <param name="input" type="data" multiple="true" label="Plasmid Assemblies" />
+        <param name="database_name" type="text" label="Database Name" />
     </inputs>
     <outputs>
         <data name="out_file" format="data_manager_json" />
