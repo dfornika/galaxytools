@@ -14,7 +14,8 @@
     mob_recon  
       --num_threads \${GALAXY_SLOTS:-4}  
       --infile "${named_input}" 
-      -d '${mob_suite_database_dir.fields.path}'
+      --plasmid_db '${mob_suite_database.fields.path}/references_updated.fasta'
+      --plasmid_mash_db '${mob_suite_database.fields.path}/references_updated.fasta.msh'
     #if str($adv_param.unicycler_contigs) == "True":
       --unicycler_contigs 
     #end if   
@@ -38,7 +39,7 @@
   </command>
   <inputs>
     <param name="input" type="data" format="fasta" label="Input" help="FASTA file with contig(s)"/>
-    <param name="mob_suite_database_dir" type="select">
+    <param name="mob_suite_database" type="select">
       <options from_data_table="mob_suite_databases">
 	<validator type="no_options" message="No MOB-Suite databases are available" />
       </options>
