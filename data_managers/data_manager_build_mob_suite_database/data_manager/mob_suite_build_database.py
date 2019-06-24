@@ -7,9 +7,11 @@ import datetime
 import errno
 import json
 import os
+import shutil
 import string
 import subprocess
 import sys
+import time
 import uuid
 
 
@@ -26,22 +28,51 @@ def mob_suite_build_database_mob_cluster(target_directory, mob_cluster_args, dat
 
     database_path = database_value
 
-    args = [
+    mob_cluster_args_list = [
         '--num_threads', mob_cluster_args['num_threads'],
         '--infile', mob_cluster_args['infile'],
         '--outdir', database_path,
         '--mode', mob_cluster_args['mode'],
     ]
 
-    subprocess.check_call(['mob_cluster'] + args, cwd=target_directory)
+    print(json.dumps(mob_cluster_args_list))
 
+    print("Sleeping for 20s")
+    time.sleep(20)
+    print("Sleep ending")
+    
+    subprocess.check_call(['mob_cluster'] + mob_cluster_args_list, cwd=target_directory)
+
+    print("Sleeping for 20s")
+    time.sleep(20)
+    print("Sleep ending")
+    
+    makeblastdb_args_list = [
+        '-in', os.path.join(database_path, 'references_updated.fasta'),
+        '-dbtype', 'nucl',
+    ]
+    
+    subprocess.check_call(['makeblastdb'] + makeblastdb_args_list, cwd=target_directory)
+
+    mash_sketch_args_list = [
+        '-i', os.path.join(database_path, 'references_updated.fasta'),
+    ]
+
+    subprocess.check_call(['mash', 'sketch'] + mash_sketch_args_list, cwd=target_directory)
+
+    bagit_args_list = [
+        database_path,
+    ]
+    
+    subprocess.check_call(['bagit.py'] + bagit_args_list, cwd=target_directory)
+    
     data_table_entry = {
         "data_tables": {
             data_table_name: [
                 {
                     "value": database_value,
                     "name": database_name,
-                    "path": database_path,
+                    "path": os.path.join(database_path, 'data')
                 }
             ]
         }
