@@ -4,10 +4,10 @@
 	    <output>
 		<column name="value"/>
 		<column name="name"/>
-		<column name="path" output_ref="out_dir">
+		<column name="path" output_ref="out_file">
 		    <move type="directory">
-		        <source>${os.path.dirname(path)}</source>
-			<target base="${GALAXY_DATA_MANAGER_DATA_PATH}">mob_suite_databases/${path}</target>
+		        <source>#import os#${os.path.dirname($path)}</source>
+			<target base="${GALAXY_DATA_MANAGER_DATA_PATH}">mob_suite_databases/#import os#${os.path.dirname($path)}</target>
 		    </move>
                     <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/mob_suite_databases/${path}</value_translation>
 		    <value_translation type="function">abspath</value_translation>
