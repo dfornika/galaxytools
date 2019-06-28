@@ -1,0 +1,29 @@
+<tool id="filter_fasta_by_id" name="filter fasta by id" version="0.1.0">
+    <description>Filters a fasta file using a list of sequence ids</description>
+    <requirements>
+    </requirements>
+    <command detect_errors="exit_code"><![CDATA[
+        $__tool_directory__/filter_fasta_by_id.py
+             --fasta '${input_fasta}'
+             --list '${id_list}'
+             > '${output}'
+    ]]></command>
+    <inputs>
+        <param name="input_fasta" type="data" format="fasta" />
+        <param name="id_list" type="data" format="tabular" />
+    </inputs>
+    <outputs>
+        <data name="output" format="fasta" />
+    </outputs>
+    <tests>
+        <test>
+            <param name="input_fasta" value="fasta-01.fasta"/>
+	    <param name="id_list" value="ids-01.tsv"/>
+            <output name="output" file="fasta-01-filtered.fasta"/>
+        </test>
+    </tests>
+    <help><![CDATA[
+    ]]></help>
+    <citations>
+    </citations>
+</tool>
