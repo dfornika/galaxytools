@@ -1,0 +1,28 @@
+<tool id="separate_chromosome_from_plasmids" name="Separate Chromosome from Plasmids" version="1.4.9.1">
+  <description>Separate chromosomal contigs from plasmid contigs</description>
+  <requirements>
+  </requirements>   
+  <command detect_errors="exit_code">
+  <![CDATA[
+    #for $input in $inputs
+        cp '${input}' '${input.element_identifier}.fasta' &&
+    #end for
+    mkdir 'plasmids' && mv plasmid_* 'plasmids'
+  ]]>  
+  </command>
+  <inputs>
+    <param name="inputs" type="data_collection" format="fasta" multiple="true" label="Input" help="FASTA files with contig(s)"/>
+  </inputs>
+  <outputs>
+    <data name="chromosome" format="fasta" from_work_dir="chromosome.fasta" label="Chromosome contigs"/> 
+    <collection name="plasmids" type="list" format="fasta" label="Plasmid contigs">
+      <discover_datasets pattern="__name_and_ext__" directory="plasmids" />
+    </collection>
+  </outputs>
+  <tests>
+  </tests>
+  <help>
+  </help>
+  <citations>
+  </citations>
+</tool>
