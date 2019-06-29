@@ -1,0 +1,9 @@
+categories:
+  - Phylogenetics
+description: 'Render a newick tree'
+name: render_tree
+owner: dfornika
+long_description: |
+  Render a newick tree using ggtree
+remote_repository_url: https://github.com/dfornika/galaxytools/tree/master/tools/render_tree
+homepage_url: https://github.com/GuangchuangYu/ggtree

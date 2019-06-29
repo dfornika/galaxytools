@@ -1,0 +1,30 @@
+<tool id="quicktree" name="quicktree" version="2.4">
+    <description>quicktree</description>
+    <requirements>
+        <requirement type="package" version="2.4">quicktree</requirement>
+    </requirements>
+    <version_command>quicktree -v</version_command>
+    <command detect_errors="exit_code"><![CDATA[
+        quicktree
+          -in m
+          -out t
+          '${matrix}'
+          > '${tree}'
+    ]]></command>
+    <inputs>
+        <param name="matrix" type="data" format="phylip" />
+    </inputs>
+    <outputs>
+        <data name="tree" format="nhx" />
+    </outputs>
+    <tests>
+        <test>
+          <param name="matrix" value="distance_matrix.phy"/>
+	  <output name="tree" value="tree.nhx"/>
+	</test>
+    </tests>
+    <help><![CDATA[
+    ]]></help>
+    <citations>
+    </citations>
+</tool>
