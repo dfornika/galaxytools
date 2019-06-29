@@ -1,0 +1,36 @@
+<tool id="render_tree" name="render tree" version="0.1.0">
+    <description>render a newick tree</description>
+    <requirements>
+        <requirement type="package" version="1.16">bioconductor-ggtree</requirement>
+    </requirements>
+    <version_command>echo '0.1.0'</version_command>
+    <command detect_errors="exit_code"><![CDATA[
+        $__tool_directory__/render_tree.R
+          '${tree}'
+          '${image}'
+    ]]></command>
+    <inputs>
+        <param name="tree" type="data" format="nhx" />
+    </inputs>
+    <outputs>
+        <data name="image" format="png" />
+    </outputs>
+    <tests>
+    </tests>
+    <help><![CDATA[
+    ]]></help>
+    <citations>
+      <citation type="bibtex">
+@article{yu2017ggtree,
+  title={ggtree: an R package for visualization and annotation of phylogenetic trees with their covariates and other associated data},
+  author={Yu, Guangchuang and Smith, David K and Zhu, Huachen and Guan, Yi and Lam, Tommy Tsan-Yuk},
+  journal={Methods in Ecology and Evolution},
+  volume={8},
+  number={1},
+  pages={28--36},
+  year={2017},
+  publisher={Wiley Online Library}
+}
+      </citation>
+    </citations>
+</tool>
