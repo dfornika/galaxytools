@@ -1,0 +1,29 @@
+<tool id="distance_matrix_phylip" name="Distance Matrix to Phylip" version="0.1.0">
+  <description></description>
+  <requirements>
+     <requirement type="package" version="1.73">biopython</requirement>
+  </requirements>   
+  <command detect_errors="exit_code">
+  <![CDATA[  
+    $__tool_directory__/distance_matrix_phylip.py  
+    --input '${input}'
+    > '${output}'
+  ]]>  
+  </command>
+  <inputs>
+    <param name="input" type="data" format="tabular" label="Input" help=""/>
+  </inputs>
+  <outputs>
+    <data name="output" format="phylip"/> 
+  </outputs>
+  <tests>
+    <test>
+        <param name="input" value="mash_dist_matrix.txt"/>
+        <output name="output" file="mash_dist_matrix.phy"/>
+    </test>
+  </tests>
+  <help>
+  </help>
+  <citations>
+  </citations>
+</tool>
