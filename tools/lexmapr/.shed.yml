@@ -1,0 +1,10 @@
+categories:
+- NLP
+description: 'Translate Biosample Metadata into Semantic Web Ontology Terms'
+long_description: |
+  A lexicon and rule-based tool for translating short biomedical specimen descriptions into semantic web ontology terms
+name: lexmapr
+owner: dfornika
+remote_repository_url: https://github.com/dfornika/galaxy/tree/master/tools/lexmapr
+homepage_url: https://github.com/Public-Health-Bioinformatics/LexMapr
+type: unrestricted
