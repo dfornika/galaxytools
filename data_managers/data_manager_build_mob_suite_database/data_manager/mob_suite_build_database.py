@@ -5,6 +5,7 @@ from __future__ import print_function
 import argparse
 import datetime
 import errno
+import glob
 import json
 import os
 import shutil
@@ -22,19 +23,40 @@ def mob_suite_build_database_mob_cluster(target_directory, mob_cluster_args, dat
 
     now = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H%M%SZ")
 
-    database_value = str(uuid.uuid4())
+    database_value = str(uuid.uuid1())
 
     database_name = database_name
 
     database_path = database_value
 
+    mob_init_args_list = [
+        '-d', database_path,
+    ]
+
+    subprocess.check_call(['mob_init'] + mob_init_args_list, cwd=target_directory)
+
+    try:
+        os.remove(os.path.join(database_path, "clusters.txt"))
+    except OSError as e:  ## if failed, report it back to the user ##
+        print ("Error: %s - %s." % (e.filename, e.strerror))
+
+    
+    ncbi_plasmid_db_files = glob.glob(os.path.join(database_path, "ncbi_plasmid_full_seqs.*"))
+    for ncbi_plasmid_db_file in ncbi_plasmid_db_files:
+        try:
+            os.remove(ncbi_plasmid_db_file)
+        except OSError as e:
+            print ("Error: %s - %s." % (e.filename, e.strerror))
+
+    
+    
     mob_cluster_args_list = [
         '--num_threads', mob_cluster_args['num_threads'],
         '--infile', mob_cluster_args['infile'],
         '--outdir', database_path,
         '--mode', mob_cluster_args['mode'],
     ]
-
+    
     print(json.dumps(mob_cluster_args_list))
 
     print("Sleeping for 20s")
@@ -46,16 +68,19 @@ def mob_suite_build_database_mob_cluster(target_directory, mob_cluster_args, dat
     print("Sleeping for 20s")
     time.sleep(20)
     print("Sleep ending")
+
+    shutil.move(os.path.join(target_directory, database_path, 'references_updated.fasta'),
+                os.path.join(target_directory, database_path, 'ncbi_plasmid_full_seqs.fas'))
     
     makeblastdb_args_list = [
-        '-in', os.path.join(database_path, 'references_updated.fasta'),
+        '-in', os.path.join(database_path, 'ncbi_plasmid_full_seqs.fas'),
         '-dbtype', 'nucl',
     ]
     
     subprocess.check_call(['makeblastdb'] + makeblastdb_args_list, cwd=target_directory)
 
     mash_sketch_args_list = [
-        '-i', os.path.join(database_path, 'references_updated.fasta'),
+        '-i', os.path.join(database_path, 'ncbi_plasmid_full_seqs.fas'),
     ]
 
     subprocess.check_call(['mash', 'sketch'] + mash_sketch_args_list, cwd=target_directory)
@@ -64,7 +89,7 @@ def mob_suite_build_database_mob_cluster(target_directory, mob_cluster_args, dat
         database_path,
     ]
     
-    subprocess.check_call(['bagit.py'] + bagit_args_list, cwd=target_directory)
+    subprocess.call(['bagit.py'] + bagit_args_list, cwd=target_directory)
     
     data_table_entry = {
         "data_tables": {
