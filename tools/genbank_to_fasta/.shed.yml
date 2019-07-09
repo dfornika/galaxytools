@@ -1,0 +1,9 @@
+categories:
+- Convert Formats
+description: 'GenBank to Fasta'
+long_description: |
+  Convert GenBank to Fasta using biopython SeqIO.convert()
+name: genbank_to_fasta
+owner: dfornika
+remote_repository_url: https://github.com/dfornika/galaxy/tree/master/tools/genbank_to_fasta
+type: unrestricted

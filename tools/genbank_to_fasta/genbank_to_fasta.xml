@@ -1,0 +1,29 @@
+<tool id="genbank_to_fasta" name="genbank to fasta file conversion" version="0.1.0">
+  <description>Convert genbank to fasta</description>
+  <requirements>
+     <requirement type="package" version="1.73">biopython</requirement>
+  </requirements>
+  <command detect_errors="exit_code">
+  <![CDATA[  
+    $__tool_directory__/genbank_to_fasta.py
+    < '${input}'
+    > '${output}'
+  ]]>  
+  </command>
+  <inputs>
+    <param name="input" type="data" format="genbank" label="Input" help="GenBank file"/>
+  </inputs>
+  <outputs>
+    <data name="output" format="fasta"/> 
+  </outputs>
+  <tests>
+    <test>
+        <param name="input" value="LR595890.1.gb" />
+        <output name="output" file="LR595890.1.fasta" />
+    </test>
+  </tests>
+  <help>
+  </help>
+  <citations>
+  </citations>
+</tool>
