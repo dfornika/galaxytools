@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
-<tool id="mash_build_sketch" name="Mash Sketch Builder" tool_type="manage_data" version="2.1">
+<tool id="mash_build_sketch" name="Mash Sketch Builder" tool_type="manage_data" version="2.1+galaxy0">
     <description>mash sketch builder</description>
     <requirements>
         <requirement type="package" version="2.1">mash</requirement>
+        <requirement type="package" version="1.7.0">bagit</requirement>
     </requirements>
     <version_command>mash --version</version_command>
     <command detect_errors="exit_code">
@@ -11,13 +12,16 @@
           '${out_file}'
           --threads \${GALAXY_SLOTS:-1}
           --kmer-size ${kmer_size}
-	      --sketch-size ${sketch_size}
+          --sketch-size ${sketch_size}
+          --input '${input}'
+          --database-name '${database_name}'
     ]]>
     </command>
     <inputs>
-        <param name="input" type="data" multiple="true" label="Sequences to sketch" />
+        <param name="input" type="data" format="fasta" label="Sequences to sketch" />
         <param name="kmer_size" type="integer" min="1" max="32" value="21" label="K-mer size" />
         <param name="sketch_size" type="integer" min="100" max="1000000" value="1000" label="Sketch size" />
+	<param name="database_name" type="text" label="Database Name" />
     </inputs>
     <outputs>
         <data name="out_file" format="data_manager_json" />

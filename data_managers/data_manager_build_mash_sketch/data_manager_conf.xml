@@ -1,18 +1,18 @@
 <data_managers>
-    <data_manager tool_file="data_manager/mash_build_sketch.xml" id="mash_build_sketch" version="1.0">
-	<data_table name="mash_sketches">
-	    <output>
-		<column name="value"/>
-		<column name="name"/>
-		<column name="path" output_ref="out_file">
-		    <move type="file">
-		        <source>${path}</source>
-			<target base="${GALAXY_DATA_MANAGER_DATA_PATH}">mash_sketches/${path}</target>
-		    </move>
-                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/mash_sketches/${path}</value_translation>
-		    <value_translation type="function">abspath</value_translation>
-		</column>
-	    </output>
-	</data_table>
+    <data_manager tool_file="data_manager/mash_build_sketch.xml" id="mash_build_sketch" version="2.1+galaxy0">
+        <data_table name="mash_sketches">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="file">
+                        <source>#import os#${os.path.dirname($path)}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">mash_sketches/#import os#${os.path.dirname($path)}</target>
+                   </move>
+                      <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/mash_sketches/${path}</value_translation>
+                      <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
     </data_manager>
 </data_managers>

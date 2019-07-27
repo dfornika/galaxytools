@@ -7,73 +7,76 @@ import datetime
 import errno
 import json
 import os
+import shutil
 import string
 import subprocess
 import sys
+import uuid
 
 
 DATA_TABLE_NAME = "mash_sketches"
 
-def run(args, cwd):
-    proc = subprocess.Popen(args=args, shell=False, cwd=cwd)
-    return_code = proc.wait()
-    if return_code:
-        print("Error building sketch.", file=sys.stderr)
-        sys.exit( return_code )
 
-def mash_build_sketch(data_manager_dict, mash_args, target_directory, data_table_name=DATA_TABLE_NAME):
+def mash_build_sketch(target_directory, mash_args, database_name, data_table_name=DATA_TABLE_NAME):
 
     now = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H%M%SZ")
 
-    database_value = "_".join([
-        now,
-        "refseq" + "." +
-        sketch_type + "." +
-        "k21.s1000.msh",
-    ])
+    database_value = str(uuid.uuid4())
 
-    database_name = " ".join([
-        "refseq" + "." +
-        sketch_type + "." +
-        "k21.s1000.msh"
-        "(Created:",
-        now + ")"
-    ])
+    database_name = database_name
 
     database_path = database_value
 
-    args = [
+    try:
+        os.mkdir( os.path.join(target_directory, database_path) )
+    except OSError as exc:
+        if exc.errno == errno.EEXIST and os.path.isdir( os.path.join(target_directory, database_path) ):
+            pass
+        else:
+            raise
+
+    shutil.copyfile(mash_args['input'], os.path.join(target_directory, database_path, 'seqs.fasta'))
+          
+    mash_sketch_args_list = [
         '-p', mash_args['threads'],
         '-k', mash_args['kmer_size'],
         '-s', mash_args['sketch_size'],
-        '-o', 'sketch'
+        '-i', 'seqs.fasta',
+        '-o', 'sketch',
     ]
 
-    subprocess.check_call(['mash', 'sketch'] + args, target_directory)
+    subprocess.check_call(['mash', 'sketch'] + mash_sketch_args_list,
+                          cwd=os.path.join(target_directory, database_path))
+    
+    bagit_args_list = [
+        database_path,
+    ]
 
+    subprocess.call(['bagit.py'] + bagit_args_list, cwd=target_directory)
+    
     data_table_entry = {
-        "value": database_value,
-        "name": database_name,
-        "path": database_path,
+        "data_tables": {
+            data_table_name: [
+                {
+                    "value": database_value,
+                    "name": database_name,
+                    "path": os.path.join(database_path, 'data'),
+                }
+            ]
+        }
     }
 
-    _add_data_table_entry(data_manager_dict, data_table_entry)
-
-
-def _add_data_table_entry(data_manager_dict, data_table_entry, data_table_name=DATA_TABLE_NAME):
-    data_manager_dict['data_tables'] = data_manager_dict.get( 'data_tables', {} )
-    data_manager_dict['data_tables'][data_table_name] = data_manager_dict['data_tables'].get( data_table_name, [] )
-    data_manager_dict['data_tables'][data_table_name].append( data_table_entry )
-    return data_manager_dict
+    return data_table_entry
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('data_manager_json')
+    parser.add_argument('--threads', dest='threads', default=1, help='threads' )
+    parser.add_argument('--input', dest='input', help='Plasmid Assemblies (.fasta)')
     parser.add_argument('--kmer-size', dest='kmer_size', help='K-mer size' )
     parser.add_argument('--sketch-size', dest='sketch_size', help='Sketch size' )
-    parser.add_argument( '--threads', dest='threads', default=1, help='threads' )
-
+    parser.add_argument('--database-name', dest='database_name', help='Database Name')
     args = parser.parse_args()
 
     data_manager_input = json.loads(open(args.data_manager_json).read())
@@ -81,6 +84,7 @@ def main():
     target_directory = data_manager_input['output_data'][0]['extra_files_path']
 
     mash_args = {
+        'input': args.input,
         'kmer_size': args.kmer_size,
         'sketch_size': args.kmer_size,
         'threads': args.threads,
@@ -96,10 +100,10 @@ def main():
 
     data_manager_output = {}
 
-    mash_build_sketch(
-        data_manager_output,
-        mash_args,
+    data_manager_output = mash_build_sketch(
         target_directory,
+        mash_args,
+        args.database_name,
     )
 
     open(args.data_manager_json, 'wb').write(json.dumps(data_manager_output))
