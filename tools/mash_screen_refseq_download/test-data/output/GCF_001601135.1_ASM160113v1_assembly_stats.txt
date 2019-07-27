@@ -1,0 +1,72 @@
+# Assembly Statistics Report
+# Assembly name:  ASM160113v1
+# Organism name:  Legionella pneumophila (g-proteobacteria)
+# Infraspecific name:  strain=NY22
+# Taxid:          446
+# BioSample:      SAMN04329981
+# BioProject:     PRJNA305599
+# Submitter:      Centers for Disease Control and Prevention
+# Date:           2016-3-28
+# Assembly type:  n/a
+# Release type:   major
+# Assembly level: Scaffold
+# Genome representation: full
+# WGS project:    LOLY01
+# Assembly method: Velvet v. 1.2.10
+# Expected final version: yes
+# Reference guided assembly: de-novo
+# Genome coverage: 184.0x
+# Sequencing technology: Illumina MiSeq
+# GenBank assembly accession: GCA_001601135.1
+# RefSeq assembly accession: GCF_001601135.1
+# RefSeq assembly and GenBank assemblies identical: yes
+#
+## Assembly-Units:
+## GenBank Unit Accession	RefSeq Unit Accession	Assembly-Unit name
+## GCA_001601145.1	GCF_001601145.1	Primary Assembly
+#
+# Statistic Types
+# Statistic	Description
+# contig-N50	Contig length at which 50% of total bases in assembly are in contigs of that length or greater
+# contig-count	Number of contigs
+# molecule-count	Number of chromosomes and plasmids in full assembly
+# region-count	Number of genomic regions defined in full assembly
+# spanned-gaps	Number of spanned gaps. Spanned gaps are gaps within a scaffold
+# top-level-count	Number of chromosomes or plasmids, unplaced/unlocalized scaffolds, alt-loci scaffolds, and patch scaffolds
+# total-gap-length	Total length of gaps
+# total-length	Total sequence length including bases and gaps
+# ungapped-length	Total length excluding gaps
+# unspanned-gaps	Number of unspanned gaps. Unspanned gaps are gaps between scaffolds
+#
+# Sequence-type Description
+# all	statistic covers all the sequences in the unit-assembly and molecule(s) specified.
+# molecule	statistic covers the specified molecule. molecule-name and molecule-type/loc will be given.
+# unlocalized	statistic covers the sequences assigned to a molecule but with no position. molecule-name and molecule-type/loc will be given.
+# unplaced	statistic covers the sequences not assigned to any molecule in the assembly.
+#
+# unit-name	molecule-name	molecule-type/loc	sequence-type	statistic	value
+all	all	all	all	total-length	3359227
+all	all	all	all	spanned-gaps	52
+all	all	all	all	unspanned-gaps	0
+all	all	all	all	region-count	0
+all	all	all	all	contig-count	223
+all	all	all	all	contig-N50	32811
+all	all	all	all	total-gap-length	6700
+all	all	all	all	molecule-count	0
+all	all	all	all	top-level-count	171
+Primary Assembly	all	all	all	total-length	3359227
+Primary Assembly	all	all	all	ungapped-length	3352527
+Primary Assembly	all	all	all	spanned-gaps	52
+Primary Assembly	all	all	all	unspanned-gaps	0
+Primary Assembly	all	all	assembled-molecule	total-length	0
+Primary Assembly	all	all	assembled-molecule	ungapped-length	0
+Primary Assembly	all	all	assembled-molecule	spanned-gaps	0
+Primary Assembly	all	all	assembled-molecule	unspanned-gaps	0
+Primary Assembly	all	all	unlocalized-scaffold	total-length	0
+Primary Assembly	all	all	unlocalized-scaffold	ungapped-length	0
+Primary Assembly	all	all	unlocalized-scaffold	spanned-gaps	0
+Primary Assembly	all	all	unlocalized-scaffold	unspanned-gaps	0
+Primary Assembly	na	na	unplaced-scaffold	total-length	3359227
+Primary Assembly	na	na	unplaced-scaffold	ungapped-length	3352527
+Primary Assembly	na	na	unplaced-scaffold	spanned-gaps	52
+Primary Assembly	na	na	unplaced-scaffold	unspanned-gaps	0

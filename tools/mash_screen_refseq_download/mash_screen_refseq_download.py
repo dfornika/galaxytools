@@ -1,6 +1,9 @@
 #!/bin/env python
 
+import argparse
 import csv
+import logging
+import os
 import re
 import sys
 import time
@@ -68,9 +71,12 @@ def mash_query_id_to_ncbi_ftp_path(query_id):
 
         return "/".join(path_list)
 
-def main():
+def main(args):
+    logging.basicConfig()
+    log = logging.getLogger('mash_screen_refseq_download')
+    log.setLevel(logging.INFO)
 
-    mash_results = parse_mash_result(sys.argv[1])
+    mash_results = parse_mash_result(args.input_file)
 
     for mash_result in mash_results:
         url = None
@@ -85,7 +91,12 @@ def main():
             ])
             # NCBI API is rate-limited to 3 requests per second, so pause between requests
             time.sleep(1)
-            urllib.request.urlretrieve(url, accession + ".fasta")
+            try:
+                urllib.request.urlretrieve(url, accession + ".fasta")
+                log.info("Downloaded: " + url)
+            except urllib.error.HTTPError as e:
+                log.error("Download Failed: " + str(e))
+            
         elif re.match("^GCF", query_id):
             ncbi_ftp_path = mash_query_id_to_ncbi_ftp_path(query_id)
             assembly = query_id[:query_id.find("_genomic.fna.gz")]
@@ -98,10 +109,35 @@ def main():
             ])
             # NCBI API is rate-limited to 3 requests per second, so pause between requests
             time.sleep(1)
-            urllib.request.urlretrieve(url, query_id)
+            try:
+                urllib.request.urlretrieve(url, query_id)
+                log.info("Downloaded: " + url)
+            except urllib.error.HTTPError as e:
+                log.error("Download Failed: " + str(e))
+
+            if args.download_assembly_stats:
+                assembly_stat_url = "/".join([
+                    ncbi_ftp_server_base, "genomes", "all",
+                    ncbi_ftp_path,
+                    assembly,
+                    assembly + "_assembly_stats.txt"
+                ])
+                try:
+                    urllib.request.urlretrieve(assembly_stat_url, assembly + "_assembly_stats.txt")
+                    log.info("Downloaded: " + assembly_stat_url)
+                except urllib.error.HTTPError as e:
+                    log.error("Download Failed: " + str(e))
         else:
-            print("query ID: " + mash_result['query_id'] + " not recognized.")
+            log.error("query ID \"" + mash_result['query_id'] + "\" not recognized.")
 
     
 if __name__ == '__main__':
-    main()
+    script_name = os.path.basename(os.path.realpath(sys.argv[0]))
+    parser = argparse.ArgumentParser(prog=script_name, description='')
+    parser.add_argument("-i", "--input", dest="input_file",
+                        help="Mash screen report file", required=True)
+    parser.add_argument("-a", "--assembly_stats", dest="download_assembly_stats", action='store_true',                      
+                        help="For genome files, also download assembly_stats.txt file,", required=False)
+    
+    args = parser.parse_args()
+    main(args)

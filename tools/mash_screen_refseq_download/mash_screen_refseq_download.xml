@@ -1,0 +1,52 @@
+<tool id="mash_screen_refseq_download" name="mash screen refseq download" version="0.1.0">
+    <description>Parses mash screen report and downloads reference files from refseq.</description>
+    <requirements>
+        <requirement type="package" version="3.6">python</requirement>
+    </requirements>
+    <command detect_errors="exit_code"><![CDATA[
+        $__tool_directory__/mash_screen_refseq_download.py
+             -i $input
+	     #if $assembly_stats
+               -a
+             #end if
+    ]]></command>
+    <inputs>
+      <param name="input" format="tabular" type="data" />
+      <param name="assembly_stats" type="boolean" />
+    </inputs>
+    <outputs>
+      <collection name="downloaded_references" type="list">
+	<discover_datasets pattern="__name_and_ext__" directory="." />
+      </collection>
+    </outputs>
+    <tests>
+      <test>
+	<param name="input" value="input/mash_screen_genome_single.tabular" />
+	<output_collection name="downloaded_references" type="list">
+	  <element name="GCF_001601135.1_ASM160113v1_genomic" file="output/GCF_001601135.1_ASM160113v1_genomic.fna.gz" />
+	</output_collection>
+      </test>
+      <test>
+	<param name="input" value="input/mash_screen_plasmid_single.tabular" />
+	<output_collection name="output" type="list" >
+	  <element name="NZ_CP019139.1" file="output/NZ_CP019139.1.fasta" />
+	</output_collection>
+      </test>
+    </tests>
+    <help><![CDATA[
+    ]]></help>
+    <citations>
+        <citation type="bibtex">
+@article{ondov2016mash,
+  title={Mash: fast genome and metagenome distance estimation using MinHash},
+  author={Ondov, Brian D and Treangen, Todd J and Melsted, P{\'a}ll and Mallonee, Adam B and Bergman, Nicholas H and Koren, Sergey and Phillippy, Adam M},
+  journal={Genome biology},
+  volume={17},
+  number={1},
+  pages={132},
+  year={2016},
+  publisher={BioMed Central}
+  }
+	</citation>
+    </citations>
+</tool>
