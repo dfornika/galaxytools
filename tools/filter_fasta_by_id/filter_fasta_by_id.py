@@ -3,12 +3,15 @@
 from __future__ import print_function
 
 import argparse
+import os
 import sys
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--fasta", dest="fasta", help="fasta to extract from")
     parser.add_argument("--list", dest="list", help="list of ids")
+    parser.add_argument("--separate", dest="separate", action="store_true", help="write to separate files")
+    parser.add_argument("--outdir", dest="outdir", default=".", help="Output directory")
     args = parser.parse_args()
     
     extracted_seqs = {}
@@ -36,10 +39,23 @@ def main():
             else:
                 seq.append(line.strip())
 
+    try:
+        os.mkdir(args.outdir)
+    except OSError as exc:
+        if exc.errno == errno.EEXIST and os.path.isdir(args.outdir):
+            pass
+        else:
+            raise
+
     for seq_id in seq_ids_to_extract:
-        print(extracted_seqs[seq_id]['header'])
+        if args.separate:
+            f = open(os.path.join(args.outdir, seq_id + ".fasta"), 'w+')
+        else:
+            f = open(os.path.join(args.outdir, "output.fasta"), 'w+')
+        f.write(extracted_seqs[seq_id]['header'])
         for seq_segment in extracted_seqs[seq_id]['seq']:
-            print(seq_segment)
-    
+            f.write(seq_segment)
+        f.close()
+
 if __name__ == '__main__':
     main()
