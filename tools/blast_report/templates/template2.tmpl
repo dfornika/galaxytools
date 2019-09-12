@@ -119,7 +119,7 @@
 			#if $query.kw_filtered > 0:
 			<p>$query.kw_filtered results filtered by description keywords: #echo ', '.join(list(["%s matches to '%s'" % (str($query.kw_filtered_breakdown[$kw]),$kw) for $kw in $query.kw_filtered_breakdown])) #.</p>
 			#end if
-			<p>Report produced on #echo time.strftime("%d/%m/%Y") #.</p>
+			<p>Report produced on #echo time.strftime("%Y-%m-%d") #.</p>
 			<hr noshade size="1" color="blue">
 		#set $q += 1
 		#end for
