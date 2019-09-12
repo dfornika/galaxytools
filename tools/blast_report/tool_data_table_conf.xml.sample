@@ -5,4 +5,8 @@
         <columns>value, name, path</columns>
         <file path="tool-data/blast_report_bins.loc" />
     </table>
+    <table name="blast_report_templates" comment_char="#">
+        <columns>value, name, path</columns>
+        <file path="tool-data/blast_report_templates.loc" />
+    </table>
 </tables>

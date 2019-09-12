@@ -21,17 +21,17 @@
     <inputs>
         <param name="in_tab" type="data" format="tabular" label="Tabular BLAST results (extended 26 columns)"/>
         <param name="tmpl" type="select" optional="false" label="Report template">
-            <options from_file="bccdc_blast_report_templates.loc">
-                <column name="value" index="1"/>
-                <column name="name" index="0"/>
+            <options from_data_table="blast_report_templates">
+                <column name="value" index="0"/>
+                <column name="name" index="1"/>
             </options>
         </param>
         <param name="filter_pident" type="integer" min="90" max="100" value="97" label="Minimum percentage identity"/>
         <param name="filter_kws" type="text" size="50" label="Comma-separated list of description keyword filters" value="bovine,clone,environmental,swine,uncultivated,uncultured,unidentified"/>
         <param name="bins" type="select" label="Database bins" multiple="true" display="checkboxes">
             <options from_data_table="blast_report_bins">
-                <column name="value" index="1"/>
-                <column name="name" index="0"/>
+                <column name="value" index="0"/>
+                <column name="name" index="1"/>
             </options>
         </param>
         <!--<repeat name="hist_bins" title="History database bins">
