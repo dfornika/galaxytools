@@ -1,0 +1,127 @@
+#silent import time
+#set $display_m = 20
+#set $header = '<tr class="header"><th>Accession</th><th>Description</th><th>Score</th><th>% Coverage</th><th>% Identity</th></tr>'
+<html>
+	<head>
+		<style>
+			body {
+				font-size:0.75em;
+			}
+			table, tr {
+				width: 100%;
+			}
+			table {
+				border-collapse: collapse;
+				border: 1px solid black;
+			}
+			tr.header {
+				background-color: lightgrey;
+			}
+			th {
+				border: 1px solid black;
+			}
+			td {
+				border-left: 1px solid black;
+				border-right: 1px solid black;
+				border-bottom: 1px dashed grey;
+			}
+			td.descr {
+				font-size: 80%;
+			}
+			h3 {
+				page-break-before: always;
+				color: blue;
+			}
+			h3.first {
+				page-break-before: avoid;
+			}
+			span.super {
+				color: navy;
+				font-size: 75%;
+				vertical-align: top;
+			}
+		</style>
+		<script>
+			function toggle(id){
+				var element = document.getElementById(id)
+				console.log(id)
+				if (element.style.display == 'none') {
+					//console.log(element.tagName);
+					if (element.tagName == 'TBODY') element.style.display = 'table-row-group';
+					else if (element.tagName == 'TD') element.style.display = 'table-cell';
+					else element.style.display = 'block';
+				} else {
+					element.style.display = 'none';
+				}
+			}
+		</script>
+	</head>
+	<body>
+		#set $q = 0
+		#for $query in $queries
+			#set $bin_symbols = dict([($bin,$i) for $i, $bin in enumerate($query.bins, 1)])
+			#set $m = 0
+			<h3 id="${query.query_id}" #if $q == 0 then'class="first"' else '' #>$query.query_id</h3>
+			<br/>
+			<table id="${query.query_id}_matches">
+			#set $num_of_euzby = -1
+			#if len($query.matches) == 0:
+				<tr class="header"><th colspan="5">No matches to report</th></tr>
+			</table>
+			#else:
+			$header
+			#try
+			#set $priority = $query.bins['Euzby']
+			#set $front = []
+			#for $i in reversed($priority)
+			#silent $front.append($query.matches.pop($i))
+			#end for
+			#set $num_of_euzby = len($front)
+			#silent $front.reverse()
+			#silent $front.extend($query.matches)
+			#set $query.matches = $front
+			#except
+			#pass
+			#end try
+			#for $match in $query.matches:
+				#if $m == $display_m
+				<tbody id="${query.query_id}_extra" style="display:none">
+				#end if
+				##if $m>0 and set($match.bins)!=set($query.matches[m-1].bins)
+				##put an empty line to separate Euzby records from other records
+				#if $m==$num_of_euzby and $m>0
+				<tr><td align="center" colspan="6">&nbsp;</td></tr>
+				#end if
+				<tr>
+					<td>$match.subject_acc <span class="super">#echo ', '.join(sorted([str($bin_symbols[$bin]) for $bin in $match.bins]))#</span></td>
+					<td class="descr">$match.subject_descr</td>
+					<td>$match.score</td>
+					<td>$match.p_cov</td>
+					<td>$match.p_ident</td>
+				</tr>
+			#set $m += 1
+			#end for
+			#if $m >= $display_m
+			</tbody>
+				<td id="${query.query_id}_show" align="center" colspan="6" >Displaying ${display_m}/$m matches. <a href="#${query.query_id}_extra" onclick="toggle('${query.query_id}_extra'); toggle('${query.query_id}_show'); toggle('${query.query_id}_hide');">Show the remaining results.</a></td>
+				<td id="${query.query_id}_hide" align="center" colspan="6" style="display:none"><a href="#${query.query_id}" onclick="toggle('${query.query_id}_extra'); toggle('${query.query_id}_show'); toggle('${query.query_id}_hide');">Hide the last #echo $m - $display_m # results.</a></td>
+			<tr>
+			</tr>
+			#end if
+			</table>
+			#if len($bin_symbols) > 0:
+			<p>#echo ', '.join(['<span class="super">%s</span> %s'%($bin_symbols[$bin],$bin) for $bin in $query.bins])#</p>
+			#end if
+			#end if
+			#if $query.pident_filtered > 0:
+			<p>$query.pident_filtered results filtered by % Identity.</p>
+			#end if
+			#if $query.kw_filtered > 0:
+			<p>$query.kw_filtered results filtered by description keywords: #echo ', '.join(list(["%s matches to '%s'" % (str($query.kw_filtered_breakdown[$kw]),$kw) for $kw in $query.kw_filtered_breakdown])) #.</p>
+			#end if
+			<p>Report produced on #echo time.strftime("%d/%m/%Y") #.</p>
+			<hr noshade size="1" color="blue">
+		#set $q += 1
+		#end for
+	</body>
+</html>
