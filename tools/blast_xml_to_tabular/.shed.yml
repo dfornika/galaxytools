@@ -1,0 +1,9 @@
+categories:
+- Convert Formats
+description: 'BLAST XML to Tabular'
+long_description: |
+  Convert a BLAST XML file to 12 column tabular output
+name: blast_xml_to_tabular
+owner: dfornika
+remote_repository_url: https://github.com/dfornika/galaxy/tree/master/tools/blast_xml_to_tabular
+type: unrestricted
