@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<tables>
+    <!-- Locations of BLAST Report bins in the required format -->
+    <table name="blast_report_bins" comment_char="#">
+        <columns>value, name, path</columns>
+        <file path="tool-data/blast_report_bins.loc" />
+    </table>
+</tables>
