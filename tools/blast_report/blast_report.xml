@@ -1,0 +1,102 @@
+<tool id="blast_report" name="BLAST report" force_history_refresh="true" version="1.1.0">
+    <description>Report on BLAST results</description>
+    <command >
+        <![CDATA[  
+          '$__tool_directory__/blast_report.py'
+          '${in_tab}'
+          '${tmpl}'
+          '${out_html}'
+          '${out_tab}'
+          -f '{$filter_pident}:$filter_kws'
+          #if str($bins) == "None"
+            #pass
+          #else
+          -b "${bins}"
+          #end if
+          #if $hsp_bool
+            -r
+          #end if
+        ]]>
+    </command>
+    <inputs>
+        <param name="in_tab" type="data" format="tabular" label="Tabular BLAST results (extended 26 columns)"/>
+        <param name="tmpl" type="select" optional="false" label="Report template">
+            <options from_file="bccdc_blast_report_templates.loc">
+                <column name="value" index="1"/>
+                <column name="name" index="0"/>
+            </options>
+        </param>
+        <param name="filter_pident" type="integer" min="90" max="100" value="97" label="Minimum percentage identity"/>
+        <param name="filter_kws" type="text" size="50" label="Comma-separated list of description keyword filters" value="bovine,clone,environmental,swine,uncultivated,uncultured,unidentified"/>
+        <param name="bins" type="select" label="Database bins" multiple="true" display="checkboxes">
+            <options from_file="bccdc_blast_bins.loc">
+                <column name="value" index="1"/>
+                <column name="name" index="0"/>
+            </options>
+        </param>
+        <!--<repeat name="hist_bins" title="History database bins">
+            <param name="filter" type="data" format="csv" label="History database bin"/>
+        </repeat>-->
+        <param name="hsp_bool" type="boolean" label="Throw out redundant hits?"/> 
+        <param name="tab_bool" type="boolean" label="Output tabular file?"/>
+    </inputs>
+    <outputs>
+        <data name="out_html" format="html" label="$tool.name on data $in_tab.hid: report"/>
+        <data name="out_tab" format="tabular" label="$tool.name on data $in_tab.hid: tabular results">
+            <filter> tab_bool </filter>
+        </data>
+    </outputs>
+    <help>
+.. class:: infomark
+
+**What it does**
+
+This tool produces a HTML report for each query in a tabular BLAST file.
+
+----
+
+**Tabular BLAST results**
+
+One or more query's BLAST results in extended 26 column tabular format. 
+
+----
+
+**Report template**
+
+The report template dictates the format of the HTML report.
+Note that changing the template from the standard "Top 20 hits shown, toggle remainder" to "Euzby results shown first" causes
+the order of the results in the HTML report and the tabular BLAST results (if outputted) to be inconsistent with each other.
+
+----
+
+**Minimum percentage identity**
+
+Filter by percentage identity. This filter is applied before the description keyword filters.
+
+----
+
+**Comma-separated list of description keyword filters**
+
+Filter by description keywords. Do not include spaces (unless your keyword is two words). These are applied
+after the percentage identity filter.
+
+----
+
+**Database bins**
+
+Bin the results by accession number into "database bins."
+
+----
+
+**Throw out redundant hits?**
+
+Only the first hit for any accession number will be reported.
+
+----
+
+**Output tabular BLAST results?**
+
+This option produces a tabular BLAST file with the same results as those shown in the report.
+
+    </help>
+</tool>

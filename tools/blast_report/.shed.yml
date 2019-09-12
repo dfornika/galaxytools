@@ -1,0 +1,9 @@
+categories:
+- Convert Formats
+description: 'Report on BLAST results'
+long_description: |
+  Preprare an HTML report of BLAST results
+name: blast_report
+owner: dfornika
+remote_repository_url: https://github.com/dfornika/galaxy/tree/master/tools/blast_report
+type: unrestricted
