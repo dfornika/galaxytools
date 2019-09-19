@@ -25,14 +25,14 @@
                 <option selected="True" value="no">Single</option>
             </param>
             <when value="collection">
-                <param format="fasta,fastq" name="input_pair" type="data_collection" collection_type="paired" label="Collection of paired reads" help="FASTA or FASTQ datasets" />
+                <param format="fastq,fastq.gz" name="input_pair" type="data_collection" collection_type="paired" label="Collection of paired reads" help="FASTQ datasets" />
             </when>
             <when value="yes">
-                <param format="fasta,fastq" name="forward_input" type="data" label="Forward strand" help="FASTA or FASTQ dataset"/>
-                <param format="fasta,fastq" name="reverse_input" type="data" label="Reverse strand" help="FASTA or FASTQ dataset"/>
+                <param format="fastq,fastq.gz" name="forward_input" type="data" label="Forward strand" help="FASTQ dataset"/>
+                <param format="fastq,fastq.gz" name="reverse_input" type="data" label="Reverse strand" help="FASTQ dataset"/>
             </when>
             <when value="no">
-                <param format="fasta,fastq" label="Input sequences" name="input_sequences" type="data" help="FASTA or FASTQ datasets"/>
+                <param format="fastq,fastq.gz" label="Input sequences" name="input_sequences" type="data" help="FASTQ datasets"/>
             </when>
         </conditional>
     </inputs>

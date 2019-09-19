@@ -1,5 +1,5 @@
 <macros>
-    <token name="@TOOL_VERSION@">0.1rc</token>
+    <token name="@TOOL_VERSION@">0.1rc2</token>
     <xml name="citations">
         <citations>
             <citation type="bibtex">
