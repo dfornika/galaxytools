@@ -9,7 +9,7 @@
     <command detect_errors="exit_code">
         <![CDATA[
           '__tool_directory__/amino2consensus.py'
-          --threshold ${readlen}
+          --threshold ${threshold}
           '${amino}'
           > '${consensus}'
         ]]>
