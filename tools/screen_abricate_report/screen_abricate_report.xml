@@ -1,0 +1,32 @@
+<tool id="screen_abricate_report" name="Screen Abricate Report" version="0.1.0">
+    <description>Screens an abricate report for genes of interest</description>
+    <requirements>
+    </requirements>
+    <command detect_errors="exit_code"><![CDATA[
+        '${__tool_directory__}/screen_abricate_report.py'
+             '${abricate_report}'
+             --screen '${screening_file.fields.path}'
+             > '${output}'
+    ]]></command>
+    <inputs>
+        <param name="abricate_report" type="data" format="tabular" />
+        <param name="screening_file" type="select" format="tabular">
+	    <options from_data_table="abricate_report_screening_files">
+	        <validator type="no_options" message="No abricate report screening files are available" />
+            </options>
+	</param>
+    </inputs>
+    <outputs>
+        <data name="output" type="data" format="tabular" label="Screened Abricate Report" />
+    </outputs>
+    <tests>
+        <test>
+            <param name="abricate_report" value="abricate_report.tsv"/>
+            <param name="screen" value="screen.tsv"/>
+        </test>
+    </tests>
+    <help><![CDATA[
+    ]]></help>
+    <citations>
+    </citations>
+</tool>

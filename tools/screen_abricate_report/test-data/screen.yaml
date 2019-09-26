@@ -1,0 +1,7 @@
+---
+- gene: KPC
+  regex: KPC
+- gene: OXA
+  regex: OXA
+- gene: NDM
+  regex: NDM
