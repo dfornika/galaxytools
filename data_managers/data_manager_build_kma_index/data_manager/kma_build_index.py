@@ -21,7 +21,8 @@ def kma_build_index(kma_index_args, index_name, target_directory, data_table_nam
         '-ML', str(kma_index_args["ML"]),
         '-ht', str(kma_index_args["ht"]),
         '-hq', str(kma_index_args["hq"]),
-        " ".join(kma_index_args["fasta"]),
+        '-o', "index",
+        '-i', " ".join(kma_index_args["fasta"]),
     ]
 
     subprocess.check_call(['kma'] + ['index'] + args, cwd=target_directory)
@@ -32,7 +33,7 @@ def kma_build_index(kma_index_args, index_name, target_directory, data_table_nam
                 {
                     "value": uuid.uuid4(),
                     "name": index_name,
-                    "path": "seq",
+                    "path": "index",
                 }
             ]
         }
