@@ -1,0 +1,8 @@
+description: 'Parse KMA result summary file to MLST result'
+long_description: |
+  Parse KMA result summary file to MLST result
+name: kma_result_to_mlst
+owner: dfornika
+remote_repository_url: https://github.com/dfornika/galaxy/tree/master/tools/kma_result_to_mlst
+homepage_url: https://github.com/dfornika/galaxy/tree/master/tools/kma_result_to_mlst
+type: unrestricted

@@ -1,0 +1,22 @@
+<tool id="kma_result_to_mlst" name="Convert KMA result to MLST" version="0.1.0">
+    <description></description>
+    <requirements>
+    </requirements>
+    <command detect_errors="exit_code"><![CDATA[
+        '${__tool_directory__}/kma_result_to_mlst.py'
+             --res '${res}'
+             > output'
+    ]]></command>
+    <inputs>
+        <param name="res" type="data" format="tabular" />
+    </inputs>
+    <outputs>
+        <data name="output" format="json"/>
+    </outputs>
+    <tests>
+    </tests>
+    <help><![CDATA[
+    ]]></help>
+    <citations>
+    </citations>
+</tool>
