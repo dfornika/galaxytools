@@ -1,15 +1,15 @@
 categories:
-- Metagenomics
-description: Kraken2 for taxonomic designation.
-homepage_url: http://ccb.jhu.edu/software/kraken2/
+- Next Gen Mappers
+description: Map with KMA
+homepage_url: https://github.com/dfornika/galaxytools/
 long_description: |
-  Kraken2 is a system for assigning taxonomic labels to short DNA
-  sequences. Kraken 2 uses exact k-mer matches to achieve high accuracy
-  and fast classification speeds. This classifier matches each k-mer
-  within a query sequence to the lowest common ancestor (LCA) of all
-  genomes containing the given k-mer. The k-mer assignments inform the
-  classification algorithm.
-name: kraken2
+  KMA is mapping a method designed to map raw reads directly against redundant databases, in an
+  ultra-fast manner using seed and extend. KMA is particulary good at aligning high quality reads
+  against highly redundant databases, where unique matches often does not exist. It works for
+  long low quality reads as well, such as those from Nanopore. Non-unique matches are resolved using
+  the "ConClave" sorting scheme, and a consensus sequence are outputted in addition to other common
+  attributes, based on our users demands.
+name: kma
 owner: dfornika
-remote_repository_url: https://github.com/dfornika/galaxytools/blob/master/tools/kraken2
+remote_repository_url: https://github.com/dfornika/galaxytools/tree/master/tools/kma/
 type: unrestricted
