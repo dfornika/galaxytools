@@ -13,7 +13,10 @@ import subprocess
 DATA_TABLE_NAME = "kma_index"
 
 def kma_build_index(kma_index_args, index_name, target_directory, data_table_name=DATA_TABLE_NAME):
-
+    UUID = str(uuid.uuid4())
+    
+    os.mkdir(UUID)
+    
     args = [
         '-k', str(kma_index_args["k"]),
         '-k_t', str(kma_index_args["k_t"]),
@@ -21,7 +24,7 @@ def kma_build_index(kma_index_args, index_name, target_directory, data_table_nam
         '-ML', str(kma_index_args["ML"]),
         '-ht', str(kma_index_args["ht"]),
         '-hq', str(kma_index_args["hq"]),
-        '-o', "index",
+        '-o', os.path.join(UUID, index),
         '-i', " ".join(kma_index_args["fasta"]),
     ]
 
@@ -31,9 +34,9 @@ def kma_build_index(kma_index_args, index_name, target_directory, data_table_nam
         'data_tables': {
             data_table_name: [
                 {
-                    "value": str(uuid.uuid4()),
+                    "value": UUID,
                     "name": index_name,
-                    "path": "index",
+                    "path": UUID,
                 }
             ]
         }
