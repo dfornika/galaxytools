@@ -15,16 +15,16 @@ DATA_TABLE_NAME = "kma_index"
 def kma_build_index(kma_index_args, index_name, target_directory, data_table_name=DATA_TABLE_NAME):
 
     args = [
-        '--k', str(kma_index_args["k"]),
-        '--k_t', str(kma_index_args["k_t"]),
-        '--k_i', str(kma_index_args["k_i"]),
-        '--ML', str(kma_index_args["ML"]),
-        '--ht', str(kma_index_args["ht"]),
-        '--hq', str(kma_index_args["hq"]),
-        str(kma_index_args["fasta"]),
+        '-k', str(kma_index_args["k"]),
+        '-k_t', str(kma_index_args["k_t"]),
+        '-k_i', str(kma_index_args["k_i"]),
+        '-ML', str(kma_index_args["ML"]),
+        '-ht', str(kma_index_args["ht"]),
+        '-hq', str(kma_index_args["hq"]),
+        " ".join(kma_index_args["fasta"]),
     ]
 
-    subprocess.check_call(['kma index'] + args, cwd=target_directory)
+    subprocess.check_call(['kma'] + ['index'] + args, cwd=target_directory)
 
     data_table_entry = {
         'data_tables': {
