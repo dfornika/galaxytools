@@ -31,7 +31,7 @@ def kma_build_index(kma_index_args, index_name, target_directory, data_table_nam
         'data_tables': {
             data_table_name: [
                 {
-                    "value": uuid.uuid4(),
+                    "value": str(uuid.uuid4()),
                     "name": index_name,
                     "path": "index",
                 }
