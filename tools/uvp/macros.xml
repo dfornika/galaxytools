@@ -1,0 +1,22 @@
+<macros>
+    <token name="@TOOL_VERSION@">2.7.0</token>
+    <token name="@INTYPES@">
+        fasta,fasta.gz,fastq,fastq.gz,fastqsanger,fastqsanger.gz
+    </token>
+    <xml name="citations">
+        <citations>
+          <citation type="bibtex">
+	    @article{ezewudo2018integrating,
+              title={Integrating standardized whole genome sequence analysis with a global Mycobacterium tuberculosis antibiotic resistance knowledgebase},
+              author={Ezewudo, Matthew and Borens, Amanda and Chiner-Oms, {\'A}lvaro and Miotto, Paolo and Chindelevitch, Leonid and Starks, Angela M and Hanna, Debra and Liwski, Richard and Zignol, Matteo and Gilpin, Christopher and others},
+              journal={Scientific reports},
+              volume={8},
+              number={1},
+              pages={15382},
+              year={2018},
+              publisher={Nature Publishing Group}
+            }
+	  </citation>
+        </citations>
+    </xml>
+</macros>

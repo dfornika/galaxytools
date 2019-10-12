@@ -1,0 +1,12 @@
+categories:
+- Sequence Analysis
+description: Unified Variant analysis Pipeline (UVP) to identify variants and assign lineage from MTBC sequence data.
+homepage_url: https://github.com/CPTR-ReSeqTB/UVP
+long_description: |
+  The Unified Variant analysis Pipeline (UVP) is a suite of NGS analysis tools with defined
+  quality metrics and a validated set of thresholds for standardizing the analysis of raw
+  MTBC sequence data from Illumina sequencing platforms.
+name: uvp
+owner: dfornika
+remote_repository_url: https://github.com/dfornika/galaxytools/blob/master/tools/uvp
+type: unrestricted
