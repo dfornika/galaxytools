@@ -11,7 +11,7 @@
         <param name="res" type="data" format="tabular" />
     </inputs>
     <outputs>
-        <data name="output" format="json"/>
+        <data name="output" format="tabular"/>
     </outputs>
     <tests>
     </tests>
