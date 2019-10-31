@@ -5,8 +5,9 @@
     <command detect_errors="exit_code"><![CDATA[
         '${__tool_directory__}/screen_abricate_report.py'
              '${abricate_report}'
-             --screen '${screening_file.fields.path}'
-             > '${output}'
+             --screening_file '${screening_file.fields.path}'
+             --screened_report '${screened_report}'
+             --gene_detection_status '${gene_detection_status}'
     ]]></command>
     <inputs>
         <param name="abricate_report" type="data" format="tabular" />
@@ -17,7 +18,8 @@
 	</param>
     </inputs>
     <outputs>
-        <data name="output" type="data" format="tabular" label="Screened Abricate Report" />
+        <data name="screened_report" type="data" format="tabular" label="Screened Abricate Report" />
+        <data name="gene_detection_status" type="data" format="tabular" label="Gene Detection Status" />
     </outputs>
     <tests>
         <test>

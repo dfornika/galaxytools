@@ -1,4 +1,4 @@
 gene_name	regex
 KPC	KPC
 NDM	NDM
-OXA	OXA
+OXA-48	OXA\-48
