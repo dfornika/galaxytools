@@ -1,8 +1,0 @@
-description: 'Filter fasta file by ids'
-long_description: |
-  Filter fasta file by ids
-name: filter_fasta_by_id
-owner: dfornika
-remote_repository_url: https://github.com/dfornika/galaxy/tree/master/tools/filter_fasta_by_id
-homepage_url: https://github.com/dfornika/galaxy/tree/master/tools/filter_fasta_by_id
-type: unrestricted
