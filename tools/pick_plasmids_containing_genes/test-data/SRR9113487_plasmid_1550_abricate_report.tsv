@@ -1,0 +1,5 @@
+#FILE	SEQUENCE	START	END	STRAND	GENE	COVERAGE	COVERAGE_MAP	GAPS	%COVERAGE	%IDENTITY	DATABASE	ACCESSION	PRODUCT	RESISTANCE
+plasmid_1550	SRR9113487.fasta|65_length=4058_depth=2.47x	2638	3513	-	CTX-M-15	1-876/876	===============	0/0	100.00	100.00	card	AY044436:1436-2312	CTX-M-15 is a beta-lactamase found in the Enterobacteriaceae family	cephalosporin
+plasmid_1550	SRR9113487.fasta|77_length=2186_depth=3.14x	1	442	-	catB3	1-442/633	===========....	0/0	69.83	100.00	card	JX101693.1:58201-58834	catB3 is a plasmid or chromosome-encoded variant of the cat gene found in Salmonella typhimurium Acinetobacter baumannii and Escherichia coli	phenicol
+plasmid_1550	SRR9113487.fasta|77_length=2186_depth=3.14x	580	1410	-	OXA-1	1-831/831	===============	0/0	100.00	100.00	card	JN420336.1:1400-2231	OXA-1 is a beta-lactamase found in E. coli	penam/cephalosporin
+plasmid_1550	SRR9113487.fasta|77_length=2186_depth=3.14x	1475	2124	-	OXA-368	2072-2721/2721	...........====	0/0	23.89	99.08	card	KT736121.1:1-2722	OXA-368 is a beta-lactamase found in Aeromonas sobria. From the Lahey list of OXA beta-lactamases.	cephalosporin/penam

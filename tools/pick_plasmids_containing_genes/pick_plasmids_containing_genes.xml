@@ -1,0 +1,45 @@
+<tool id="pick_plasmids_containing_genes" name="Pick plasmids containing genes" version="0.1.0">
+    <description>Pick plasmids containing specific genes</description>
+    <requirements>
+    </requirements>
+    <command detect_errors="exit_code"><![CDATA[
+        '$__tool_directory__/pick_plasmids_containing_genes.py'
+        --plasmids 
+        #for $plasmid in $plasmids:
+          '${plasmid}'
+        #end for
+        --abricate_reports
+        #for $abricate_report in $abricate_reports:
+          '${abricate_report}'
+        #end for
+        --abricate_report_screening_file '${screening_file.fields.path}'
+        --outdir outdir
+    ]]></command>
+    <inputs>
+        <param name="plasmids" type="data_collection" collection_type="list" format="fasta" />
+        <param name="abricate_reports" type="data_collection" collection_type="list" format="tabular" />
+        <param name="screening_file" type="select" format="tabular">
+	    <options from_data_table="abricate_report_screening_files">
+	        <validator type="no_options" message="No abricate report screening files are available" />
+            </options>
+	</param>
+    </inputs>
+    <outputs>
+        <collection name="output" type="list" label="Output plasmids">
+            <discover_datasets pattern="__name__" format="fasta" directory="outdir" />
+        </collection>
+    </outputs>
+    <tests>
+        <test>
+            <param name="input_fasta" value="fasta-01.fasta"/>
+            <param name="id_list" value="ids-01.tsv"/>
+            <output_collection name="output" type="list">
+                <element name="output.fasta" file="fasta-01-filtered.fasta" ftype="fasta" />
+            </output_collection>
+        </test>
+    </tests>
+    <help><![CDATA[
+    ]]></help>
+    <citations>
+    </citations>
+</tool>
