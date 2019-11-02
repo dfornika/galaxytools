@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<tables>
+    <!-- Locations of abricate report screening files in the required format -->
+    <table name="abricate_report_screening_files" comment_char="#">
+        <columns>value, name, path</columns>
+        <file path="tool-data/abricate_report_screening_files.loc" />
+    </table>
+</tables>

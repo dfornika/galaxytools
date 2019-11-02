@@ -1,0 +1,7 @@
+# Expect three columns, tab separated, as follows:
+# - value (Galaxy records this in the Galaxy DB)
+# - name (Galaxy shows this in the UI)
+# - path (Path to the abricate report screening file (tsv format))
+#
+# e.g.
+# 76cc857a-7747-4d69-b2a3-a8fbddbf64c2<tab>Carbapenemase Genes<tab>/path/to/screening_file.tsv
