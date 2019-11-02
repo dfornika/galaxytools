@@ -14,7 +14,7 @@
     ]]></command>
     <inputs>
         <param name="plasmids" type="data_collection" collection_type="list" format="fasta" />
-        <param name="concatenated_abricate_reports" type="data_collection" collection_type="list" format="tabular,txt" />
+        <param name="concatenated_abricate_reports" type="data" format="tabular" />
         <param name="screening_file" type="select" format="tabular">
 	    <options from_data_table="abricate_report_screening_files">
 	        <validator type="no_options" message="No abricate report screening files are available" />
