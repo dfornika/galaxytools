@@ -1,0 +1,27 @@
+<tool id="platon" name="platon" version="@TOOL_VERSION@+galaxy0">
+    <description>Plasmid contig detection and characterization </description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <requirements>
+        <requirement type="package" version="@TOOL_VERSION@">platon</requirement>
+    </requirements>
+    <version_command>platon --version</version_command>
+    <command detect_errors="exit_code"><![CDATA[
+        platon
+             --threads \${GALAXY_SLOTS:-1}
+             --output 'outdir'
+             '{$genome}'
+    ]]></command>
+    <inputs>
+        <param type="data" name="genome" format="fasta" label="Genome assembly"/>
+    </inputs>
+    <outputs>
+    </outputs>
+    <tests>
+    </tests>
+    <help>
+    </help>
+    <citations>
+    </citations>
+</tool>

@@ -1,0 +1,14 @@
+categories:
+- Sequence Analysis
+description: 'Plasmid contig detection and characterization'
+long_description: |
+  Platon detects plasmid contigs from bacterial WGS short read assemblies. Therefore, Platon
+  computes replicon distribution scores (RDS) of marker proteins sequences (MPS) per contig
+  based on pre-computed protein distribution statistics and tests them against specific thresholds.
+  Contigs whose mean RDS does not reach the defined thresholds are comprehensively characterized
+  and finally classified by heuristic filters.
+name: platon
+owner: dfornika
+remote_repository_url: https://github.com/dfornika/galaxy/tree/master/tools/platon
+homepage_url: https://github.com/oschwengers/platon
+type: unrestricted
