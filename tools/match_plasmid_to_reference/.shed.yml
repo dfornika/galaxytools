@@ -1,0 +1,8 @@
+description: 'Match plasmid to reference genbank based on MOB Typer report'
+long_description: |
+  Match plasmid to reference genbank based on MOB Typer report
+name: match_plasmid_to_reference
+owner: dfornika
+remote_repository_url: https://github.com/dfornika/galaxy/tree/master/tools/match_plasmid_to_reference
+homepage_url: https://github.com/dfornika/galaxy/tree/master/tools/match_plasmid_to_reference
+type: unrestricted

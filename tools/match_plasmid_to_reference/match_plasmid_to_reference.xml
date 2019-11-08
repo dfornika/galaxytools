@@ -1,0 +1,57 @@
+<tool id="match_plasmid_to_reference" name="Match plasmid to reference" version="0.1.0">
+    <description>Pick plasmids containing specific genes</description>
+    <requirements>
+    </requirements>
+    <command detect_errors="exit_code"><![CDATA[
+        '$__tool_directory__/match_plasmid_to_reference.py'
+        --plasmid '${plasmid}'
+        --reference_plasmids_genbank
+        #for $reference_plasmid in $reference_plasmids_genbank:
+          '${reference_plasmid}'
+        #end for
+        --reference_plasmids_fasta
+        #for $reference_plasmid in $reference_plasmids_fasta:
+          '${reference_plasmid}'
+        #end for
+        --mob_typer_report '${concatenated_mob_typer_reports}'
+        --outdir outdir
+    ]]></command>
+    <inputs>
+        <param name="plasmid" type="data" format="fasta" />
+        <param name="reference_plasmids_genbank" type="data_collection" collection_type="list" format="genbank" />
+	<param name="reference_plasmids_fasta" type="data_collection" collection_type="list" format="fasta" />
+        <param name="concatenated_mob_typer_reports" type="data" format="tabular" />
+    </inputs>
+    <outputs>
+        <data name="output_plasmid" from_work_dir="outdir/plasmid.fasta" label="Plasmid" format="fasta"/>
+        <data name="matched_reference_plasmid_genbank" from_work_dir="outdir/reference_plasmid.gbk" label="Reference Plasmid (genbank)" format="genbank"/>
+	<data name="matched_reference_plasmid_fasta" from_work_dir="outdir/reference_plasmid.fasta" label="Reference Plasmid (fasta)" format="fasta"/>
+	<data name="matched_mob_typer_record" from_work_dir="outdir/mob_typer_record.tsv" label="Matched MOB-Typer Record" format="tabular"/>
+    </outputs>
+    <tests>
+        <test>
+            <param name="plasmid" value="SRR9113487_plasmid_2719.fasta"/>
+            <param name="reference_plasmids_genbank">
+                <collection type="list">
+                    <element name="CP008719" value="CP008719.gbk" ftype="genbank" />
+                    <element name="JQ739157" value="JQ739157.gbk" ftype="genbank" />
+                </collection>
+            </param>
+            <param name="reference_plasmids_fasta">
+                <collection type="list">
+                    <element name="CP008719" value="CP008719.fa" ftype="fasta" />
+                    <element name="JQ739157" value="JQ739157.fa" ftype="fasta" />
+                </collection>
+            </param>
+            <param name="concatenated_mob_typer_reports" value="concatenated_mob_typer_reports.tsv" />
+            <output name="output_plasmid" file="outdir/plasmid.fasta" />
+            <output name="matched_reference_plasmid_genbank" file="outdir/reference_plasmid.gbk" />
+            <output name="matched_reference_plasmid_fasta" file="outdir/reference_plasmid.fasta" />
+            <output name="matched_mob_typer_record" file="outdir/mob_typer_record.tsv" />
+        </test>
+    </tests>
+    <help><![CDATA[
+    ]]></help>
+    <citations>
+    </citations>
+</tool>

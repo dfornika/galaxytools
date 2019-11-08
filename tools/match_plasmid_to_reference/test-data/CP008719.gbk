@@ -1,0 +1,130 @@
+LOCUS       CP008719                2101 bp    DNA     circular BCT 05-JAN-2016
+DEFINITION  Escherichia coli strain ST648 plasmid pEC648_5, complete sequence.
+ACCESSION   CP008719
+VERSION     CP008719.1
+DBLINK      BioProject: PRJNA248607
+            BioSample: SAMN02800875
+KEYWORDS    .
+SOURCE      Escherichia coli
+  ORGANISM  Escherichia coli
+            Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacterales;
+            Enterobacteriaceae; Escherichia.
+REFERENCE   1  (bases 1 to 2101)
+  AUTHORS   Gao,Z.
+  TITLE     Complete Genome Sequence of Multiple Antibiotic Resistant
+            Escherichia coli Isolated from Pleural Effusion of Patients with
+            Empyema Thoracis
+  JOURNAL   Unpublished
+REFERENCE   2  (bases 1 to 2101)
+  AUTHORS   Gao,Z.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (09-JUN-2014) Department of Respiratory and Critical care
+            medicine, Peking University People's hospital, Xizhimen South
+            Street, Beijing, Beijing 100101, China
+COMMENT     Annotation was added by the NCBI Prokaryotic Genome Annotation
+            Pipeline (released 2013). Information about the Pipeline can be
+            found here: http://www.ncbi.nlm.nih.gov/genome/annotation_prok/
+            
+            ##Genome-Assembly-Data-START##
+            Assembly Method       :: Newbler v. 2.3; Consed
+            Genome Coverage       :: 40x; 350x
+            Sequencing Technology :: Roche 454 GS FLX; Illumina Hiseq 2000
+            ##Genome-Assembly-Data-END##
+            
+            ##Genome-Annotation-Data-START##
+            Annotation Provider          :: NCBI
+            Annotation Date              :: 06/13/2014 09:01:46
+            Annotation Pipeline          :: NCBI Prokaryotic Genome Annotation
+                                            Pipeline
+            Annotation Method            :: Best-placed reference protein set;
+                                            GeneMarkS+
+            Annotation Software revision :: 2.6 (rev. 437579)
+            Features Annotated           :: Gene; CDS; rRNA; tRNA; ncRNA;
+                                            repeat_region
+            Genes                        :: 4,807
+            CDS                          :: 4,578
+            Pseudo Genes                 :: 132
+            CRISPR Arrays                :: 2
+            rRNAs                        :: 21 (5S, 16S, 23S)
+            tRNAs                        :: 72
+            ncRNA                        :: 4
+            Frameshifted Genes           :: 116
+            ##Genome-Annotation-Data-END##
+FEATURES             Location/Qualifiers
+     source          1..2101
+                     /organism="Escherichia coli"
+                     /mol_type="genomic DNA"
+                     /strain="ST648"
+                     /db_xref="taxon:562"
+                     /plasmid="pEC648_5"
+     gene            join(1882..2101,1..47)
+                     /locus_tag="FH07_00765"
+     CDS             join(1882..2101,1..47)
+                     /locus_tag="FH07_00765"
+                     /inference="EXISTENCE: similar to AA
+                     sequence:RefSeq:WP_001024536.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="hypothetical protein"
+                     /protein_id="ALV71377.1"
+                     /translation="MNINIEYLNGNKTIGLFFLRSEAVIPDRFKNLILLIDGLSFGTF
+                     GFHPHEGFEDELILYIQKTNERVKTLFVKIDLNGIKFGFLRTHS"
+     gene            913..1878
+                     /locus_tag="FH07_00775"
+     CDS             913..1878
+                     /locus_tag="FH07_00775"
+                     /inference="EXISTENCE: similar to AA
+                     sequence:RefSeq:WP_012421200.1"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Protein Homology."
+                     /codon_start=1
+                     /transl_table=11
+                     /product="Replication protein"
+                     /protein_id="ALV71376.1"
+                     /translation="MSEDKFLSDYSPRDAVWDTQRTLTDSVGGIYQTAAEFERYALRM
+                     ASCSGLLRFGWSTIMETGETRLRLRSAQFCRVRHCPVCQWRRTLMWQARFYQALPKIV
+                     VDYPSSRWLFLTLTVRNCEIGELGTVLTAMNAAFKRMEKRKELSPVQGWIRATEVTRG
+                     KDGSAHPHFHCLLMVQPSWFKGKNYVKHERWVELWRDCLRVNYEPNIDIRAVKTKTGE
+                     VVANVAEQLQSAVAETLKYSVKPEDMANDPEWFLELTRQLHKRRFISTGGALKNVLQL
+                     DRETNEDLVIADDVGDGTDDGKRTAFVWDSGKRRYKRAPEKDKSD"
+ORIGIN      
+        1 tagatttaaa cggtatcaag tttggatttt taagaacgca ttcttagttc tggaaaagag
+       61 ccagcggcag gctgaggtga taggtacgag attgcatgca atctctagtg ctctgtctat
+      121 cctgcattat cctcagcatt atcctcagca ttatcctcag ccttgccaac tcgacaccaa
+      181 tgcaggatag acaatccgat gtcaaatgtt aacactctgc gagtggtaca ttttccccgg
+      241 attatcgtcc tgagcctgcc gctggctctc tttctaccgc ctcgctttgc tcgttgctca
+      301 acgcctcaca gacacggatt aaaatccgca tccgttcacc gttttttaaa gtccgttaaa
+      361 agcatgatgc catctccgag agttaatctc gtcaaatgct aaatcgtggg ggtccccttt
+      421 ggggttccga tttagtgatt gacgacacca ccgattaaaa aacttatgcg gggtggatgg
+      481 tttcacgaag tgaggccatc cacctgtaag acagggtttt gtttttattc cctgttttgg
+      541 tgatcgggtg tgtggaaaag gttggggtaa gccgttcggg ggtgcttgtt ttggggggtt
+      601 aaaattgtgg ttattttttg cgcaattctc gcgcgtgatc cttgtattta tacttaaggg
+      661 ataaatggcg gatatgaaat agtggtttag cccagtaatg acgaggcttt gagtgggttt
+      721 tgacaggtca aagaaaatgg agcagaattg aggcgttttt aatcggcgtt ggggagtgcg
+      781 tcaacactcc ccaacatttc gaatgtgtca cctcagcggc aaactctggt gacatgtact
+      841 ggctcgcaat gcacaggtac gtgatgaata taccacatca aatcacagcc tgcccagatc
+      901 ggagcaggct taatgtcaga agataaattc ctttcggact acagcccccg tgatgcagtt
+      961 tgggataccc agcgcacgct taccgattct gtcgggggta tctaccagac tgctgctgaa
+     1021 ttcgagcgct atgcactccg tatggcctcc tgtagcggtt tgttacgttt tggttggtct
+     1081 accatcatgg aaaccggaga aacgcgccta cggcttcgta gtgcgcaatt ttgccgtgtc
+     1141 cgtcattgcc ctgtctgcca gtggagaaga accctcatgt ggcaagcccg tttttatcag
+     1201 gctctaccga aaatcgttgt ggattacccg tcttcccgat ggttgtttct gacgttaact
+     1261 gtcaggaact gcgagatagg tgaacttgga acagtcctta cagcaatgaa tgcggcgttt
+     1321 aagcgaatgg aaaagcgaaa ggagctatca cctgttcagg ggtggatcag ggctacggag
+     1381 gtgacgcgag gtaaggatgg cagcgcacat ccgcattttc actgtctgct gatggtgcaa
+     1441 ccttcttggt ttaaagggaa gaactacgtt aagcacgaac gttgggtaga actctggcgc
+     1501 gattgcttgc gggtgaacta tgagccgaat atcgatattc gggcagtaaa aactaagaca
+     1561 ggtgaggttg tggccaacgt tgccgagcaa ctgcaaagcg cggttgctga aacgctgaaa
+     1621 tactccgtta aaccggaaga tatggcaaac gatcctgagt ggtttcttga gctgacgcgg
+     1681 cagcttcaca agcgccgttt tatctcgacc ggtggggcgc taaaaaacgt cctccagttg
+     1741 gatcgagaaa ccaatgagga tcttgtcatt gccgacgatg taggggatgg cactgatgac
+     1801 gggaagcgga cggcgtttgt ctgggattca ggtaaacggc gttacaaacg cgcccctgag
+     1861 aaggataaat cggattaacg tatgaatatt aatattgaat acctgaatgg aaataagact
+     1921 attggtttat tttttttaag aagtgaagcg gtgattcctg acaggtttaa aaaccttatt
+     1981 ttgcttattg atggattaag ttttggcaca tttggttttc atccgcacga aggttttgag
+     2041 gatgaattaa ttttatatat tcagaaaaca aacgagaggg taaaaactct ttttgtgaaa
+     2101 a
+//
+
