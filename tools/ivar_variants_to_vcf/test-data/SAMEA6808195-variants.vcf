@@ -1,0 +1,23 @@
+##fileformat=VCFv4.2
+##source=iVar
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Depth">
+##FILTER=<ID=PASS,Description="Result of p-value <= 0.05">
+##FILTER=<ID=FAIL,Description="Result of p-value > 0.05">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=REF_DP,Number=1,Type=Integer,Description="Depth of reference base">
+##FORMAT=<ID=REF_RV,Number=1,Type=Integer,Description="Depth of reference base on reverse reads">
+##FORMAT=<ID=REF_QUAL,Number=1,Type=Integer,Description="Mean quality of reference base">
+##FORMAT=<ID=ALT_DP,Number=1,Type=Integer,Description="Depth of alternate base">
+##FORMAT=<ID=ALT_RV,Number=1,Type=Integer,Description="Deapth of alternate base on reverse reads">
+##FORMAT=<ID=ALT_QUAL,Number=1,Type=String,Description="Mean quality of alternate base">
+##FORMAT=<ID=ALT_FREQ,Number=1,Type=String,Description="Frequency of alternate base">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	SAMEA6808195-variants
+MN908947.3	30	.	A	T	.	PASS	DP=53	GT:REF_DP:REF_RV:REF_QUAL:ALT_DP:ALT_RV:ALT_QUAL:ALT_FREQ	1:23:10:38:30:0:33:0.566038
+MN908947.3	228	.	C	T	.	PASS	DP=3932	GT:REF_DP:REF_RV:REF_QUAL:ALT_DP:ALT_RV:ALT_QUAL:ALT_FREQ	1:3:0:47:3929:107:73:0.999237
+MN908947.3	241	.	C	T	.	PASS	DP=3943	GT:REF_DP:REF_RV:REF_QUAL:ALT_DP:ALT_RV:ALT_QUAL:ALT_FREQ	1:0:0:0:3943:127:72:1
+MN908947.3	3037	.	C	T	.	PASS	DP=1713	GT:REF_DP:REF_RV:REF_QUAL:ALT_DP:ALT_RV:ALT_QUAL:ALT_FREQ	1:0:0:0:1713:100:74:1
+MN908947.3	14408	.	C	T	.	PASS	DP=6480	GT:REF_DP:REF_RV:REF_QUAL:ALT_DP:ALT_RV:ALT_QUAL:ALT_FREQ	1:2:0:53:6478:209:75:0.999691
+MN908947.3	17126	.	T	C	.	PASS	DP=11854	GT:REF_DP:REF_RV:REF_QUAL:ALT_DP:ALT_RV:ALT_QUAL:ALT_FREQ	1:3:0:39:11851:4693:38:0.999747
+MN908947.3	20268	.	A	G	.	PASS	DP=327	GT:REF_DP:REF_RV:REF_QUAL:ALT_DP:ALT_RV:ALT_QUAL:ALT_FREQ	1:0:0:0:327:1:38:1
+MN908947.3	23403	.	A	G	.	PASS	DP=5968	GT:REF_DP:REF_RV:REF_QUAL:ALT_DP:ALT_RV:ALT_QUAL:ALT_FREQ	1:1:1:39:5964:5939:38:0.99933
+MN908947.3	28770	.	C	T	.	PASS	DP=1661	GT:REF_DP:REF_RV:REF_QUAL:ALT_DP:ALT_RV:ALT_QUAL:ALT_FREQ	1:148:141:36:1513:40:38:0.910897
